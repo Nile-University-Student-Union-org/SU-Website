@@ -54,7 +54,22 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  HomeHero: 'HomeHero',
+  Sponsor: 'Sponsor',
+  WhoWeAre: 'WhoWeAre',
+  Stat: 'Stat',
+  AboutHero: 'AboutHero',
+  AboutCTA: 'AboutCTA',
+  Committee: 'Committee',
+  BoardMember: 'BoardMember',
+  EventStatus: 'EventStatus',
+  Event: 'Event',
+  Footer: 'Footer',
+  SocialLink: 'SocialLink',
+  ContactInfo: 'ContactInfo',
+  OfficeHours: 'OfficeHours',
+  ContactSubmission: 'ContactSubmission'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -79,6 +94,10 @@ export const UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
+  role: 'role',
+  banned: 'banned',
+  banReason: 'banReason',
+  banExpires: 'banExpires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -94,7 +113,8 @@ export const SessionScalarFieldEnum = {
   updatedAt: 'updatedAt',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
-  userId: 'userId'
+  userId: 'userId',
+  impersonatedBy: 'impersonatedBy'
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -129,6 +149,217 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const HomeHeroScalarFieldEnum = {
+  id: 'id',
+  backgroundImage: 'backgroundImage',
+  foregroundImage: 'foregroundImage',
+  heroTextImage: 'heroTextImage',
+  primaryButtonLabel: 'primaryButtonLabel',
+  primaryButtonLink: 'primaryButtonLink',
+  secondaryButtonLabel: 'secondaryButtonLabel',
+  secondaryButtonLink: 'secondaryButtonLink',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HomeHeroScalarFieldEnum = (typeof HomeHeroScalarFieldEnum)[keyof typeof HomeHeroScalarFieldEnum]
+
+
+export const SponsorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  label: 'label',
+  year: 'year',
+  imageUrl: 'imageUrl',
+  websiteUrl: 'websiteUrl',
+  description: 'description',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SponsorScalarFieldEnum = (typeof SponsorScalarFieldEnum)[keyof typeof SponsorScalarFieldEnum]
+
+
+export const WhoWeAreScalarFieldEnum = {
+  id: 'id',
+  eyebrow: 'eyebrow',
+  countWord: 'countWord',
+  titleSuffix: 'titleSuffix',
+  description: 'description',
+  ctaLabel: 'ctaLabel',
+  ctaLink: 'ctaLink',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WhoWeAreScalarFieldEnum = (typeof WhoWeAreScalarFieldEnum)[keyof typeof WhoWeAreScalarFieldEnum]
+
+
+export const StatScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  label: 'label',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StatScalarFieldEnum = (typeof StatScalarFieldEnum)[keyof typeof StatScalarFieldEnum]
+
+
+export const AboutHeroScalarFieldEnum = {
+  id: 'id',
+  eyebrow: 'eyebrow',
+  title: 'title',
+  description: 'description',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AboutHeroScalarFieldEnum = (typeof AboutHeroScalarFieldEnum)[keyof typeof AboutHeroScalarFieldEnum]
+
+
+export const AboutCTAScalarFieldEnum = {
+  id: 'id',
+  enabled: 'enabled',
+  eyebrow: 'eyebrow',
+  title: 'title',
+  description: 'description',
+  buttonText: 'buttonText',
+  buttonLink: 'buttonLink',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AboutCTAScalarFieldEnum = (typeof AboutCTAScalarFieldEnum)[keyof typeof AboutCTAScalarFieldEnum]
+
+
+export const CommitteeScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  tagline: 'tagline',
+  description: 'description',
+  color: 'color',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CommitteeScalarFieldEnum = (typeof CommitteeScalarFieldEnum)[keyof typeof CommitteeScalarFieldEnum]
+
+
+export const BoardMemberScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  role: 'role',
+  committeeId: 'committeeId',
+  major: 'major',
+  year: 'year',
+  image: 'image',
+  bio: 'bio',
+  cvDescription: 'cvDescription',
+  inSu: 'inSu',
+  collaborations: 'collaborations',
+  achievements: 'achievements',
+  email: 'email',
+  linkedin: 'linkedin',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BoardMemberScalarFieldEnum = (typeof BoardMemberScalarFieldEnum)[keyof typeof BoardMemberScalarFieldEnum]
+
+
+export const EventStatusScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  color: 'color',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventStatusScalarFieldEnum = (typeof EventStatusScalarFieldEnum)[keyof typeof EventStatusScalarFieldEnum]
+
+
+export const EventScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  statusId: 'statusId',
+  location: 'location',
+  description: 'description',
+  tags: 'tags',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const FooterScalarFieldEnum = {
+  id: 'id',
+  description: 'description',
+  copyrightSuffix: 'copyrightSuffix',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FooterScalarFieldEnum = (typeof FooterScalarFieldEnum)[keyof typeof FooterScalarFieldEnum]
+
+
+export const SocialLinkScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  href: 'href',
+  icon: 'icon',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SocialLinkScalarFieldEnum = (typeof SocialLinkScalarFieldEnum)[keyof typeof SocialLinkScalarFieldEnum]
+
+
+export const ContactInfoScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  phone: 'phone',
+  address: 'address',
+  mapUrl: 'mapUrl',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContactInfoScalarFieldEnum = (typeof ContactInfoScalarFieldEnum)[keyof typeof ContactInfoScalarFieldEnum]
+
+
+export const OfficeHoursScalarFieldEnum = {
+  id: 'id',
+  dayRange: 'dayRange',
+  hours: 'hours',
+  note: 'note',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OfficeHoursScalarFieldEnum = (typeof OfficeHoursScalarFieldEnum)[keyof typeof OfficeHoursScalarFieldEnum]
+
+
+export const ContactSubmissionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  email: 'email',
+  subject: 'subject',
+  content: 'content',
+  isRead: 'isRead',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContactSubmissionScalarFieldEnum = (typeof ContactSubmissionScalarFieldEnum)[keyof typeof ContactSubmissionScalarFieldEnum]
 
 
 export const SortOrder = {

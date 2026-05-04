@@ -61,3 +61,78 @@ export type Account = Prisma.AccountModel
  * 
  */
 export type Verification = Prisma.VerificationModel
+/**
+ * Model HomeHero
+ * 
+ */
+export type HomeHero = Prisma.HomeHeroModel
+/**
+ * Model Sponsor
+ * 
+ */
+export type Sponsor = Prisma.SponsorModel
+/**
+ * Model WhoWeAre
+ * 
+ */
+export type WhoWeAre = Prisma.WhoWeAreModel
+/**
+ * Model Stat
+ * 
+ */
+export type Stat = Prisma.StatModel
+/**
+ * Model AboutHero
+ * 
+ */
+export type AboutHero = Prisma.AboutHeroModel
+/**
+ * Model AboutCTA
+ * 
+ */
+export type AboutCTA = Prisma.AboutCTAModel
+/**
+ * Model Committee
+ * 
+ */
+export type Committee = Prisma.CommitteeModel
+/**
+ * Model BoardMember
+ * 
+ */
+export type BoardMember = Prisma.BoardMemberModel
+/**
+ * Model EventStatus
+ * 
+ */
+export type EventStatus = Prisma.EventStatusModel
+/**
+ * Model Event
+ * 
+ */
+export type Event = Prisma.EventModel
+/**
+ * Model Footer
+ * 
+ */
+export type Footer = Prisma.FooterModel
+/**
+ * Model SocialLink
+ * 
+ */
+export type SocialLink = Prisma.SocialLinkModel
+/**
+ * Model ContactInfo
+ * 
+ */
+export type ContactInfo = Prisma.ContactInfoModel
+/**
+ * Model OfficeHours
+ * 
+ */
+export type OfficeHours = Prisma.OfficeHoursModel
+/**
+ * Model ContactSubmission
+ * 
+ */
+export type ContactSubmission = Prisma.ContactSubmissionModel

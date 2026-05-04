@@ -7,12 +7,18 @@ datasource db {
   provider = "postgresql"
 }
 
+// ─── Auth (Better Auth + admin plugin) ──────────────────────────────────────
+
 model User {
   id            String    @id
   name          String
   email         String
   emailVerified Boolean   @default(false)
   image         String?
+  role          String?   @default("admin")
+  banned        Boolean?  @default(false)
+  banReason     String?
+  banExpires    DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
@@ -23,15 +29,16 @@ model User {
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String   @id
+  expiresAt      DateTime
+  token          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  impersonatedBy String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@index([userId])
@@ -68,4 +75,205 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+// ─── Home page ──────────────────────────────────────────────────────────────
+
+model Sponsor {
+  id          String   @id @default(cuid())
+  name        String
+  label       String   @default("")
+  year        String   @default("")
+  imageUrl    String
+  websiteUrl  String?
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("sponsor")
+}
+
+// "Who We Are" / Mission section on the home page
+model WhoWeAre {
+  id          String   @id @default("default")
+  eyebrow     String   @default("Who We Are")
+  countWord   String   @default("Six")
+  titleSuffix String   @default("Committees.\nOne Voice.")
+  description String
+  ctaLabel    String   @default("Meet the Board")
+  ctaLink     String   @default("/about")
+  updatedAt   DateTime @updatedAt
+
+  @@map("who_we_are")
+}
+
+model Stat {
+  id        String   @id @default(cuid())
+  value     String
+  label     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("stat")
+}
+
+// ─── About page ─────────────────────────────────────────────────────────────
+
+model AboutHero {
+  id          String   @id @default("default")
+  eyebrow     String   @default("Nile University Student Union")
+  title       String   @default("About\nThe Union")
+  description String
+  updatedAt   DateTime @updatedAt
+
+  @@map("about_hero")
+}
+
+model AboutCTA {
+  id          String   @id @default("default")
+  enabled     Boolean  @default(true)
+  eyebrow     String   @default("Recruitment opens every spring")
+  title       String   @default("Want a seat\nat this table?")
+  description String   @default("Applications go out each March. Every committee runs its own intake — open positions are posted to our channels first.")
+  buttonText  String   @default("Get In Touch")
+  buttonLink  String   @default("/contact")
+  updatedAt   DateTime @updatedAt
+
+  @@map("about_cta")
+}
+
+model Committee {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  name        String
+  tagline     String
+  description String
+  color       String
+  order       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  members     BoardMember[]
+
+  @@map("committee")
+}
+
+model BoardMember {
+  id             String    @id @default(cuid())
+  name           String
+  role           String
+  committeeId    String
+  major          String
+  year           String
+  image          String
+  bio            String    @db.Text
+  // Rich-text HTML for the long-form CV description
+  cvDescription  String    @default("") @db.Text
+  inSu           String[]
+  collaborations String[]
+  achievements   String[]
+  email          String?
+  linkedin       String?
+  order          Int       @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  committee      Committee @relation(fields: [committeeId], references: [id], onDelete: Cascade)
+
+  @@index([committeeId])
+  @@map("board_member")
+}
+
+// ─── Events page ────────────────────────────────────────────────────────────
+
+model EventStatus {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  color     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  events    Event[]
+
+  @@map("event_status")
+}
+
+model Event {
+  id          String      @id @default(cuid())
+  name        String
+  startAt     DateTime
+  endAt       DateTime
+  statusId    String
+  location    String
+  description String      @db.Text
+  tags        String[]
+  image       String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  status      EventStatus @relation(fields: [statusId], references: [id], onDelete: Restrict)
+
+  @@index([statusId])
+  @@index([startAt])
+  @@map("event")
+}
+
+// ─── Footer / Contact / Submissions ─────────────────────────────────────────
+
+model Footer {
+  id              String   @id @default("default")
+  description     String   @default("Nile University Student Union — representing every student, running every year. Six committees. One voice.")
+  copyrightSuffix String   @default("Nile University Student Union. All rights reserved.")
+  updatedAt       DateTime @updatedAt
+
+  @@map("footer")
+}
+
+model SocialLink {
+  id        String   @id @default(cuid())
+  label     String
+  href      String
+  icon      String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("social_link")
+}
+
+model ContactInfo {
+  id        String   @id @default("default")
+  email     String   @default("hello@nusu.edu")
+  phone     String   @default("+20 100 000 0000")
+  address   String   @default("Student Centre · Nile University, Sheikh Zayed")
+  mapUrl    String?
+  updatedAt DateTime @updatedAt
+
+  @@map("contact_info")
+}
+
+model OfficeHours {
+  id        String   @id @default("default")
+  dayRange  String   @default("Sunday – Thursday")
+  hours     String   @default("10:00 – 16:00")
+  note      String?
+  updatedAt DateTime @updatedAt
+
+  @@map("office_hours")
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String
+  subject   String
+  content   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isRead])
+  @@index([createdAt])
+  @@map("contact_submission")
 }
