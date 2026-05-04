@@ -21,13 +21,42 @@ Website for the Nile University Student Union. Built with TanStack Start, React,
 
 ### Prerequisites
 
-- Node.js 18+ (or newer)
+- Node.js 20.19+ (or newer)
 - pnpm (recommended)
 
 ### Install
 
 ```bash
 pnpm install
+```
+
+### Configure environment
+
+```bash
+cp .env.example .env
+```
+
+Update `DATABASE_URL` in `.env` with your Postgres connection string.
+
+### Run database (Docker)
+
+```bash
+docker compose up -d
+```
+
+The container uses `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`, and
+`POSTGRES_PORT` from `.env`.
+
+### Generate Prisma client
+
+```bash
+pnpm generate
+```
+
+### Run migrations (development)
+
+```bash
+pnpm migrate
 ```
 
 ### Run locally
@@ -42,6 +71,9 @@ The dev server runs on http://localhost:3000.
 
 ```bash
 pnpm dev        # Start dev server (port 3000)
+pnpm generate   # Prisma client generation
+pnpm migrate    # Prisma migrate dev
+pnpm push       # Prisma database push
 pnpm build      # Production build
 pnpm preview    # Preview production build
 pnpm lint       # ESLint
