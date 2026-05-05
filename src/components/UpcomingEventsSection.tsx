@@ -2,25 +2,23 @@ import { Link } from "@tanstack/react-router"
 import { format } from "date-fns"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, Location01Icon } from "@hugeicons/core-free-icons"
-import { events, type AppEvent } from "@/data/events"
 
-function pickUpcoming(): AppEvent[] {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-
-  const upcoming = events
-    .filter((e) => e.endAt.getTime() >= today.getTime())
-    .sort((a, b) => a.startAt.getTime() - b.startAt.getTime())
-
-  // Fallback: if no upcoming events, show the most recent past 3
-  const list = upcoming.length > 0
-    ? upcoming
-    : [...events].sort((a, b) => b.startAt.getTime() - a.startAt.getTime())
-
-  return list.slice(0, 3)
+type EventData = {
+  id: string
+  name: string
+  startAt: Date | string
+  endAt: Date | string
+  location: string
+  image: string
+  status: { name: string; color: string }
 }
 
-function FeaturedEventCard({ event }: { event: AppEvent }) {
+function toDate(d: Date | string): Date {
+  return d instanceof Date ? d : new Date(d)
+}
+
+function FeaturedEventCard({ event }: { event: EventData }) {
+  const startAt = toDate(event.startAt)
   return (
     <Link
       to="/events"
@@ -33,23 +31,20 @@ function FeaturedEventCard({ event }: { event: AppEvent }) {
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* Color stripe */}
         <div
           className="absolute inset-x-0 top-0 h-1.5 z-10"
           style={{ backgroundColor: event.status.color }}
         />
 
-        {/* Date badge — top left */}
         <div className="absolute top-5 left-5 lg:top-6 lg:left-6 bg-background/95 backdrop-blur-sm rounded-2xl px-4 py-3 flex flex-col items-center min-w-16 shadow-lg">
           <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-            {format(event.startAt, "MMM")}
+            {format(startAt, "MMM")}
           </span>
           <span className="text-3xl lg:text-4xl font-bold text-foreground tabular-nums leading-none mt-1">
-            {format(event.startAt, "d")}
+            {format(startAt, "d")}
           </span>
         </div>
 
-        {/* Bottom gradient with content */}
         <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/55 to-transparent p-6 lg:p-10">
           <div className="flex items-center gap-2 mb-3">
             <span
@@ -81,13 +76,13 @@ function FeaturedEventCard({ event }: { event: AppEvent }) {
   )
 }
 
-function CompactEventCard({ event }: { event: AppEvent }) {
+function CompactEventCard({ event }: { event: EventData }) {
+  const startAt = toDate(event.startAt)
   return (
     <Link
       to="/events"
       className="group flex-1 flex gap-4 p-4 lg:p-5 rounded-2xl border border-border bg-background hover:border-foreground transition-colors duration-300 min-h-0"
     >
-      {/* Image */}
       <div className="relative w-28 sm:w-36 shrink-0 rounded-xl overflow-hidden bg-muted self-stretch">
         <img
           src={event.image}
@@ -100,14 +95,13 @@ function CompactEventCard({ event }: { event: AppEvent }) {
         />
       </div>
 
-      {/* Content */}
       <div className="flex-1 min-w-0 flex flex-col gap-1.5 py-0.5">
         <div className="flex items-baseline gap-2">
           <span className="text-2xl sm:text-3xl font-bold leading-none text-foreground tabular-nums">
-            {format(event.startAt, "d")}
+            {format(startAt, "d")}
           </span>
           <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-            {format(event.startAt, "MMM yyyy")}
+            {format(startAt, "MMM yyyy")}
           </span>
         </div>
 
@@ -134,18 +128,15 @@ function CompactEventCard({ event }: { event: AppEvent }) {
   )
 }
 
-export function UpcomingEventsSection() {
-  const upcoming = pickUpcoming()
+export function UpcomingEventsSection({ events }: { events: EventData[] }) {
+  if (events.length === 0) return null
 
-  if (upcoming.length === 0) return null
-
-  const [feature, ...rest] = upcoming
+  const [feature, ...rest] = events
 
   return (
     <section className="bg-background py-16 sm:py-20 lg:py-24 border-t border-border">
       <div className="mx-auto max-w-screen-2xl px-6 sm:px-10 lg:px-14">
 
-        {/* Header — matches Sponsors pattern */}
         <div className="mb-10 lg:mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
             <p className="text-xs font-medium tracking-[0.46em] text-muted-foreground uppercase">
@@ -170,7 +161,6 @@ export function UpcomingEventsSection() {
           </Link>
         </div>
 
-        {/* Bento grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           <FeaturedEventCard event={feature} />
 

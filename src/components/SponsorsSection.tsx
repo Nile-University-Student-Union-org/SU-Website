@@ -3,18 +3,18 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { Button } from "@/components/ui/button"
 
-const sponsors = [
-  { image: "sponsor.png" },
-  { image: "sponsor.png" },
-  { image: "sponsor.png" },
-  { image: "sponsor.png" },
-  { image: "sponsor.png" },
-  { image: "sponsor.png" },
-]
+type Sponsor = {
+  id: string
+  name: string
+  label: string
+  year: string
+  imageUrl: string
+  websiteUrl: string | null
+}
 
-const SCROLL_AMOUNT = 284 // card width (256) + gap (20) + a touch
+const SCROLL_AMOUNT = 284
 
-export function SponsorsSection() {
+export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
   const rowRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
@@ -41,11 +41,12 @@ export function SponsorsSection() {
     })
   }
 
+  if (sponsors.length === 0) return null
+
   return (
     <section className="bg-background py-16">
       <div className="mx-auto max-w-screen-2xl px-6 sm:px-10 lg:px-14">
 
-        {/* Header row — title left, arrows right */}
         <div className="mb-10 flex items-end justify-between">
           <div>
             <p className="text-xs font-medium tracking-[0.46em] text-muted-foreground uppercase">
@@ -78,33 +79,42 @@ export function SponsorsSection() {
           </div>
         </div>
 
-        {/* Horizontal scrolling row — scrollbar hidden */}
         <div
           ref={rowRef}
           className="flex gap-5 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {sponsors.map((sponsor, i) => (
+          {sponsors.map((sponsor) => (
             <div
-              key={i}
+              key={sponsor.id}
               className="w-64 shrink-0 overflow-hidden rounded-2xl border border-border"
             >
-              {/* Top block */}
               <div className="flex h-36 flex-col justify-between bg-primary px-5 py-7 text-primary-foreground">
                 <div className="flex justify-end">
-                  <span className="text-lg font-bold">2025</span>
+                  {sponsor.year && (
+                    <span className="text-lg font-bold">{sponsor.year}</span>
+                  )}
                 </div>
                 <p className="text-2xl font-bold leading-tight tracking-wide uppercase">
-                  The Clubs<br />Festival
+                  {sponsor.label || sponsor.name}
                 </p>
               </div>
 
-              {/* Bottom block — logo */}
               <div className="flex h-44 items-center justify-center rounded-2xl bg-card">
-                <img
-                  src={`/${sponsor.image}`}
-                  alt="Sponsor logo"
-                  className="h-full w-full object-cover"
-                />
+                {sponsor.websiteUrl ? (
+                  <a href={sponsor.websiteUrl} target="_blank" rel="noopener noreferrer" className="block h-full w-full">
+                    <img
+                      src={sponsor.imageUrl}
+                      alt={sponsor.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </a>
+                ) : (
+                  <img
+                    src={sponsor.imageUrl}
+                    alt={sponsor.name}
+                    className="h-full w-full object-cover"
+                  />
+                )}
               </div>
             </div>
           ))}

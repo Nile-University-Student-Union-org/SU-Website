@@ -4,6 +4,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 const region = process.env.AWS_REGION
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
+const endpoint = process.env.AWS_S3_ENDPOINT  // set for MinIO; omit for real AWS
 
 export const s3Bucket = process.env.AWS_S3_BUCKET ?? ""
 export const s3PublicBaseUrl = process.env.AWS_S3_PUBLIC_URL ?? ""
@@ -20,6 +21,7 @@ export function getS3Client(): S3Client {
   _client = new S3Client({
     region,
     credentials: { accessKeyId, secretAccessKey },
+    ...(endpoint ? { endpoint, forcePathStyle: true } : {}),
   })
   return _client
 }

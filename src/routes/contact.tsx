@@ -13,28 +13,20 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { contactSubmissionSchema } from "@/lib/validators"
+import { submitContactFn } from "@/lib/server-fns/contact"
+import { getContactInfoFn, getOfficeHoursFn } from "@/lib/server-fns/public"
 
-export const Route = createFileRoute("/contact")({ component: ContactPage })
-
-const CONTACT_DETAILS = [
-  {
-    icon: Mail01Icon,
-    label: "Email",
-    value: "hello@nusu.edu",
-    href: "mailto:hello@nusu.edu",
+export const Route = createFileRoute("/contact")({
+  loader: async () => {
+    const [contactInfo, officeHours] = await Promise.all([
+      getContactInfoFn(),
+      getOfficeHoursFn(),
+    ])
+    return { contactInfo, officeHours }
   },
-  {
-    icon: Call02Icon,
-    label: "Phone",
-    value: "+20 100 000 0000",
-    href: "tel:+201000000000",
-  },
-  {
-    icon: Location01Icon,
-    label: "Office",
-    value: "Student Centre · Nile University, Sheikh Zayed",
-  },
-]
+  component: ContactPage,
+})
 
 function FormField({
   label,
@@ -59,7 +51,10 @@ function FormField({
 }
 
 function ContactPage() {
+  const { contactInfo, officeHours } = Route.useLoaderData()
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -69,23 +64,59 @@ function ContactPage() {
   })
 
   const handleChange = (key: keyof typeof form) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setForm((f) => ({ ...f, [key]: e.target.value }))
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSubmitted(true)
-    setForm({ name: "", phone: "", email: "", subject: "", content: "" })
+    setError(null)
+
+    const parsed = contactSubmissionSchema.safeParse(form)
+    if (!parsed.success) {
+      setError(parsed.error.issues[0]?.message ?? "Please check the form fields.")
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      await submitContactFn({ data: parsed.data })
+      setSubmitted(true)
+      setForm({ name: "", phone: "", email: "", subject: "", content: "" })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send message. Please try again.")
+    } finally {
+      setSubmitting(false)
+    }
   }
+
+  const contactDetails = [
+    contactInfo && {
+      icon: Mail01Icon,
+      label: "Email",
+      value: contactInfo.email,
+      href: `mailto:${contactInfo.email}`,
+    },
+    contactInfo && {
+      icon: Call02Icon,
+      label: "Phone",
+      value: contactInfo.phone,
+      href: `tel:${contactInfo.phone.replace(/\s+/g, "")}`,
+    },
+    contactInfo && {
+      icon: Location01Icon,
+      label: "Office",
+      value: contactInfo.address,
+      href: contactInfo.mapUrl ?? undefined,
+    },
+  ].filter((d): d is NonNullable<typeof d> => Boolean(d))
 
   return (
     <>
       <Navbar />
 
       <main className="min-h-screen pt-36 pb-24">
-        {/* ── Hero ────────────────────────────────────────────────────── */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end border-b border-border pb-10">
             <div className="lg:col-span-8">
@@ -104,18 +135,16 @@ function ContactPage() {
           </div>
         </section>
 
-        {/* ── Body ────────────────────────────────────────────────────── */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
 
-            {/* Left — Quick contact channels */}
             <aside className="lg:col-span-4 flex flex-col gap-8">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-foreground mb-4">
                   Quick channels
                 </p>
                 <ul className="flex flex-col gap-1">
-                  {CONTACT_DETAILS.map(({ icon, label, value, href }) => {
+                  {contactDetails.map(({ icon, label, value, href }) => {
                     const Inner = (
                       <div className="flex items-start gap-4 py-4 border-b border-border group">
                         <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center shrink-0 group-hover:bg-foreground group-hover:text-background transition-colors">
@@ -146,18 +175,22 @@ function ContactPage() {
                 </ul>
               </div>
 
-              <div className="rounded-2xl bg-muted/60 p-6">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-muted-foreground mb-2">
-                  Office hours
-                </p>
-                <p className="text-sm text-foreground leading-relaxed">
-                  Sunday – Thursday<br />
-                  10:00 – 16:00
-                </p>
-              </div>
+              {officeHours && (
+                <div className="rounded-2xl bg-muted/60 p-6">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-muted-foreground mb-2">
+                    Office hours
+                  </p>
+                  <p className="text-sm text-foreground leading-relaxed">
+                    {officeHours.dayRange}<br />
+                    {officeHours.hours}
+                  </p>
+                  {officeHours.note && (
+                    <p className="text-xs text-muted-foreground mt-2">{officeHours.note}</p>
+                  )}
+                </div>
+              )}
             </aside>
 
-            {/* Right — Form */}
             <div className="lg:col-span-8">
               <div className="rounded-3xl border border-border bg-background p-6 sm:p-8 lg:p-10">
 
@@ -257,6 +290,12 @@ function ContactPage() {
                       />
                     </FormField>
 
+                    {error && (
+                      <p className="text-sm text-red-600" role="alert">
+                        {error}
+                      </p>
+                    )}
+
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
                       <p className="text-xs text-muted-foreground">
                         By submitting, you agree to be contacted by NUSU about your enquiry.
@@ -264,9 +303,10 @@ function ContactPage() {
                       <Button
                         type="submit"
                         size="lg"
+                        disabled={submitting}
                         className="gap-2 hover:bg-nusu-blue shrink-0"
                       >
-                        Send Message
+                        {submitting ? "Sending…" : "Send Message"}
                         <HugeiconsIcon icon={ArrowRight01Icon} size={14} strokeWidth={2} />
                       </Button>
                     </div>

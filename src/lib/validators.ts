@@ -60,7 +60,7 @@ export const whoWeAreSchema = z.object({
   eyebrow: trimmed(80),
   countWord: trimmed(20),
   titleSuffix: trimmed(160),
-  description: trimmed(800),
+  description: trimmed(5000),
   ctaLabel: trimmed(40),
   ctaLink: trimmed(200),
 })
@@ -68,20 +68,20 @@ export const whoWeAreSchema = z.object({
 export const aboutHeroSchema = z.object({
   eyebrow: trimmed(120),
   title: trimmed(160),
-  description: trimmed(800),
+  description: trimmed(5000),
 })
 
 export const aboutCTASchema = z.object({
   enabled: z.boolean(),
   eyebrow: trimmed(120),
   title: trimmed(160),
-  description: trimmed(800),
+  description: trimmed(5000),
   buttonText: trimmed(40),
   buttonLink: trimmed(200),
 })
 
 export const footerSchema = z.object({
-  description: trimmed(400),
+  description: trimmed(3000),
   copyrightSuffix: trimmed(200),
 })
 
@@ -133,7 +133,7 @@ export const committeeSchema = z.object({
   slug: trimmed(60).regex(/^[a-z0-9-]+$/, "Lowercase letters, numbers, and dashes only."),
   name: trimmed(120),
   tagline: trimmed(160),
-  description: trimmed(800),
+  description: trimmed(5000),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Use a 6-digit hex like #018BCE."),
   order: z.number().int().min(0).max(9999).default(0),
 })
@@ -145,7 +145,7 @@ export const boardMemberSchema = z.object({
   major: trimmed(120),
   year: trimmed(40),
   image: url,
-  bio: trimmed(800),
+  bio: trimmed(5000),
   cvDescription: z.string().max(20000).default(""),
   inSu: z.array(z.string().trim().min(1).max(280)).max(20).default([]),
   collaborations: z.array(z.string().trim().min(1).max(280)).max(20).default([]),
@@ -178,7 +178,7 @@ export const eventSchema = z
     endAt: z.coerce.date(),
     statusId: z.string().min(1),
     location: trimmed(200),
-    description: trimmed(2000),
+    description: trimmed(10000),
     tags: z.array(z.string().trim().min(1).max(40)).max(10).default([]),
     image: url,
   })

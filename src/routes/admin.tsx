@@ -6,6 +6,8 @@ import {
   useRouter,
   useRouterState,
 } from "@tanstack/react-router"
+import { useState, useEffect } from "react"
+import { Sun, Moon } from "lucide-react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   ArrowRight01Icon,
@@ -17,6 +19,7 @@ import {
   Image01Icon,
   Home01Icon,
   InformationCircleIcon,
+  BarChartIcon,
 } from "@hugeicons/core-free-icons"
 import { authClient } from "@/lib/auth-client"
 import { getAdminSessionFn } from "@/lib/server-fns/session"
@@ -76,6 +79,7 @@ const NAV: Array<NavGroup> = [
     items: [
       { to: "/admin/sponsors", label: "Sponsors", icon: Image01Icon },
       { to: "/admin/who-we-are", label: "Who We Are", icon: InformationCircleIcon },
+      { to: "/admin/stats", label: "Stats", icon: BarChartIcon },
     ],
   },
   {
@@ -115,12 +119,35 @@ const NAV: Array<NavGroup> = [
   },
 ]
 
+function useTheme() {
+  const [dark, setDark] = useState(false)
+
+  useEffect(() => {
+    const stored = localStorage.getItem("admin-theme")
+    const isDark = stored === "dark"
+    setDark(isDark)
+    document.documentElement.classList.toggle("dark", isDark)
+  }, [])
+
+  function toggle() {
+    setDark((prev) => {
+      const next = !prev
+      document.documentElement.classList.toggle("dark", next)
+      localStorage.setItem("admin-theme", next ? "dark" : "light")
+      return next
+    })
+  }
+
+  return { dark, toggle }
+}
+
 function AdminLayout() {
   const ctx = Route.useRouteContext() as {
     session?: { user: { name: string; email: string; role: string } }
   }
   const router = useRouter()
   const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const { dark, toggle } = useTheme()
 
   // Login page is rendered at /admin/login, but its file route is a sibling so
   // it never actually renders inside this layout. The route guard above lets
@@ -157,7 +184,7 @@ function AdminLayout() {
                 render={<Link to="/admin" />}
               >
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-foreground text-background">
-                  <img src="/logo.svg" alt="" className="size-4 invert" />
+                  <img src="/logo.svg" alt="" className="size-4" />
                 </div>
                 <div className="flex flex-col leading-none gap-0.5">
                   <span className="text-[11px] font-bold uppercase tracking-[0.25em]">
@@ -217,6 +244,13 @@ function AdminLayout() {
                     {session.user.role}
                   </span>
                 </div>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip={dark ? "Switch to light mode" : "Switch to dark mode"} onClick={toggle}>
+                {dark ? <Sun size={14} /> : <Moon size={14} />}
+                <span>{dark ? "Light mode" : "Dark mode"}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
 

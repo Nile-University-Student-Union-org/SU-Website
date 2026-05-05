@@ -16,7 +16,22 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminWhoWeAreRouteImport } from './routes/admin.who-we-are'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
+import { Route as AdminStatsRouteImport } from './routes/admin.stats'
+import { Route as AdminSponsorsRouteImport } from './routes/admin.sponsors'
+import { Route as AdminSocialLinksRouteImport } from './routes/admin.social-links'
+import { Route as AdminOfficeHoursRouteImport } from './routes/admin.office-hours'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminFooterRouteImport } from './routes/admin.footer'
+import { Route as AdminEventsRouteImport } from './routes/admin.events'
+import { Route as AdminEventStatusesRouteImport } from './routes/admin.event-statuses'
+import { Route as AdminContactInfoRouteImport } from './routes/admin.contact-info'
+import { Route as AdminCommitteesRouteImport } from './routes/admin.committees'
+import { Route as AdminBoardRouteImport } from './routes/admin.board'
+import { Route as AdminAboutHeroRouteImport } from './routes/admin.about-hero'
+import { Route as AdminAboutCtaRouteImport } from './routes/admin.about-cta'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 
 const LoginRoute = LoginRouteImport.update({
@@ -54,9 +69,84 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminWhoWeAreRoute = AdminWhoWeAreRouteImport.update({
+  id: '/who-we-are',
+  path: '/who-we-are',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSubmissionsRoute = AdminSubmissionsRouteImport.update({
+  id: '/submissions',
+  path: '/submissions',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminStatsRoute = AdminStatsRouteImport.update({
+  id: '/stats',
+  path: '/stats',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSponsorsRoute = AdminSponsorsRouteImport.update({
+  id: '/sponsors',
+  path: '/sponsors',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSocialLinksRoute = AdminSocialLinksRouteImport.update({
+  id: '/social-links',
+  path: '/social-links',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOfficeHoursRoute = AdminOfficeHoursRouteImport.update({
+  id: '/office-hours',
+  path: '/office-hours',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFooterRoute = AdminFooterRouteImport.update({
+  id: '/footer',
+  path: '/footer',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEventsRoute = AdminEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEventStatusesRoute = AdminEventStatusesRouteImport.update({
+  id: '/event-statuses',
+  path: '/event-statuses',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContactInfoRoute = AdminContactInfoRouteImport.update({
+  id: '/contact-info',
+  path: '/contact-info',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCommitteesRoute = AdminCommitteesRouteImport.update({
+  id: '/committees',
+  path: '/committees',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBoardRoute = AdminBoardRouteImport.update({
+  id: '/board',
+  path: '/board',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAboutHeroRoute = AdminAboutHeroRouteImport.update({
+  id: '/about-hero',
+  path: '/about-hero',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAboutCtaRoute = AdminAboutCtaRouteImport.update({
+  id: '/about-cta',
+  path: '/about-cta',
   getParentRoute: () => AdminRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -71,7 +161,22 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/admin/about-cta': typeof AdminAboutCtaRoute
+  '/admin/about-hero': typeof AdminAboutHeroRoute
+  '/admin/board': typeof AdminBoardRoute
+  '/admin/committees': typeof AdminCommitteesRoute
+  '/admin/contact-info': typeof AdminContactInfoRoute
+  '/admin/event-statuses': typeof AdminEventStatusesRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/footer': typeof AdminFooterRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/office-hours': typeof AdminOfficeHoursRoute
+  '/admin/social-links': typeof AdminSocialLinksRoute
+  '/admin/sponsors': typeof AdminSponsorsRoute
+  '/admin/stats': typeof AdminStatsRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/who-we-are': typeof AdminWhoWeAreRoute
   '/admin/': typeof AdminIndexRoute
   '/events/': typeof EventsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -81,7 +186,22 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/admin/about-cta': typeof AdminAboutCtaRoute
+  '/admin/about-hero': typeof AdminAboutHeroRoute
+  '/admin/board': typeof AdminBoardRoute
+  '/admin/committees': typeof AdminCommitteesRoute
+  '/admin/contact-info': typeof AdminContactInfoRoute
+  '/admin/event-statuses': typeof AdminEventStatusesRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/footer': typeof AdminFooterRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/office-hours': typeof AdminOfficeHoursRoute
+  '/admin/social-links': typeof AdminSocialLinksRoute
+  '/admin/sponsors': typeof AdminSponsorsRoute
+  '/admin/stats': typeof AdminStatsRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/who-we-are': typeof AdminWhoWeAreRoute
   '/admin': typeof AdminIndexRoute
   '/events': typeof EventsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -93,7 +213,22 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/admin/about-cta': typeof AdminAboutCtaRoute
+  '/admin/about-hero': typeof AdminAboutHeroRoute
+  '/admin/board': typeof AdminBoardRoute
+  '/admin/committees': typeof AdminCommitteesRoute
+  '/admin/contact-info': typeof AdminContactInfoRoute
+  '/admin/event-statuses': typeof AdminEventStatusesRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/footer': typeof AdminFooterRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/office-hours': typeof AdminOfficeHoursRoute
+  '/admin/social-links': typeof AdminSocialLinksRoute
+  '/admin/sponsors': typeof AdminSponsorsRoute
+  '/admin/stats': typeof AdminStatsRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/who-we-are': typeof AdminWhoWeAreRoute
   '/admin/': typeof AdminIndexRoute
   '/events/': typeof EventsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -106,7 +241,22 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/login'
+    | '/admin/about-cta'
+    | '/admin/about-hero'
+    | '/admin/board'
+    | '/admin/committees'
+    | '/admin/contact-info'
+    | '/admin/event-statuses'
+    | '/admin/events'
+    | '/admin/footer'
     | '/admin/login'
+    | '/admin/office-hours'
+    | '/admin/social-links'
+    | '/admin/sponsors'
+    | '/admin/stats'
+    | '/admin/submissions'
+    | '/admin/users'
+    | '/admin/who-we-are'
     | '/admin/'
     | '/events/'
     | '/api/auth/$'
@@ -116,7 +266,22 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/login'
+    | '/admin/about-cta'
+    | '/admin/about-hero'
+    | '/admin/board'
+    | '/admin/committees'
+    | '/admin/contact-info'
+    | '/admin/event-statuses'
+    | '/admin/events'
+    | '/admin/footer'
     | '/admin/login'
+    | '/admin/office-hours'
+    | '/admin/social-links'
+    | '/admin/sponsors'
+    | '/admin/stats'
+    | '/admin/submissions'
+    | '/admin/users'
+    | '/admin/who-we-are'
     | '/admin'
     | '/events'
     | '/api/auth/$'
@@ -127,7 +292,22 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/login'
+    | '/admin/about-cta'
+    | '/admin/about-hero'
+    | '/admin/board'
+    | '/admin/committees'
+    | '/admin/contact-info'
+    | '/admin/event-statuses'
+    | '/admin/events'
+    | '/admin/footer'
     | '/admin/login'
+    | '/admin/office-hours'
+    | '/admin/social-links'
+    | '/admin/sponsors'
+    | '/admin/stats'
+    | '/admin/submissions'
+    | '/admin/users'
+    | '/admin/who-we-are'
     | '/admin/'
     | '/events/'
     | '/api/auth/$'
@@ -194,11 +374,116 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/who-we-are': {
+      id: '/admin/who-we-are'
+      path: '/who-we-are'
+      fullPath: '/admin/who-we-are'
+      preLoaderRoute: typeof AdminWhoWeAreRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/submissions': {
+      id: '/admin/submissions'
+      path: '/submissions'
+      fullPath: '/admin/submissions'
+      preLoaderRoute: typeof AdminSubmissionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/stats': {
+      id: '/admin/stats'
+      path: '/stats'
+      fullPath: '/admin/stats'
+      preLoaderRoute: typeof AdminStatsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/sponsors': {
+      id: '/admin/sponsors'
+      path: '/sponsors'
+      fullPath: '/admin/sponsors'
+      preLoaderRoute: typeof AdminSponsorsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/social-links': {
+      id: '/admin/social-links'
+      path: '/social-links'
+      fullPath: '/admin/social-links'
+      preLoaderRoute: typeof AdminSocialLinksRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/office-hours': {
+      id: '/admin/office-hours'
+      path: '/office-hours'
+      fullPath: '/admin/office-hours'
+      preLoaderRoute: typeof AdminOfficeHoursRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/footer': {
+      id: '/admin/footer'
+      path: '/footer'
+      fullPath: '/admin/footer'
+      preLoaderRoute: typeof AdminFooterRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/events': {
+      id: '/admin/events'
+      path: '/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AdminEventsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/event-statuses': {
+      id: '/admin/event-statuses'
+      path: '/event-statuses'
+      fullPath: '/admin/event-statuses'
+      preLoaderRoute: typeof AdminEventStatusesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/contact-info': {
+      id: '/admin/contact-info'
+      path: '/contact-info'
+      fullPath: '/admin/contact-info'
+      preLoaderRoute: typeof AdminContactInfoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/committees': {
+      id: '/admin/committees'
+      path: '/committees'
+      fullPath: '/admin/committees'
+      preLoaderRoute: typeof AdminCommitteesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/board': {
+      id: '/admin/board'
+      path: '/board'
+      fullPath: '/admin/board'
+      preLoaderRoute: typeof AdminBoardRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/about-hero': {
+      id: '/admin/about-hero'
+      path: '/about-hero'
+      fullPath: '/admin/about-hero'
+      preLoaderRoute: typeof AdminAboutHeroRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/about-cta': {
+      id: '/admin/about-cta'
+      path: '/about-cta'
+      fullPath: '/admin/about-cta'
+      preLoaderRoute: typeof AdminAboutCtaRouteImport
       parentRoute: typeof AdminRoute
     }
     '/api/auth/$': {
@@ -212,12 +497,42 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAboutCtaRoute: typeof AdminAboutCtaRoute
+  AdminAboutHeroRoute: typeof AdminAboutHeroRoute
+  AdminBoardRoute: typeof AdminBoardRoute
+  AdminCommitteesRoute: typeof AdminCommitteesRoute
+  AdminContactInfoRoute: typeof AdminContactInfoRoute
+  AdminEventStatusesRoute: typeof AdminEventStatusesRoute
+  AdminEventsRoute: typeof AdminEventsRoute
+  AdminFooterRoute: typeof AdminFooterRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminOfficeHoursRoute: typeof AdminOfficeHoursRoute
+  AdminSocialLinksRoute: typeof AdminSocialLinksRoute
+  AdminSponsorsRoute: typeof AdminSponsorsRoute
+  AdminStatsRoute: typeof AdminStatsRoute
+  AdminSubmissionsRoute: typeof AdminSubmissionsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminWhoWeAreRoute: typeof AdminWhoWeAreRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAboutCtaRoute: AdminAboutCtaRoute,
+  AdminAboutHeroRoute: AdminAboutHeroRoute,
+  AdminBoardRoute: AdminBoardRoute,
+  AdminCommitteesRoute: AdminCommitteesRoute,
+  AdminContactInfoRoute: AdminContactInfoRoute,
+  AdminEventStatusesRoute: AdminEventStatusesRoute,
+  AdminEventsRoute: AdminEventsRoute,
+  AdminFooterRoute: AdminFooterRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminOfficeHoursRoute: AdminOfficeHoursRoute,
+  AdminSocialLinksRoute: AdminSocialLinksRoute,
+  AdminSponsorsRoute: AdminSponsorsRoute,
+  AdminStatsRoute: AdminStatsRoute,
+  AdminSubmissionsRoute: AdminSubmissionsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminWhoWeAreRoute: AdminWhoWeAreRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 

@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router"
 import { format } from "date-fns"
 import { useRef, useMemo, useCallback, useState } from "react"
 import { Navbar } from "@/components/Navbar"
-import { events, type AppEvent } from "@/data/events"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -10,7 +9,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Location01Icon, Ticket01Icon } from "@hugeicons/core-free-icons"
@@ -26,17 +24,53 @@ import {
   useCalendarYear,
   monthsForLocale,
 } from "@/components/kibo-ui/calendar"
+import { getEventsFn, getEventStatusesFn } from "@/lib/server-fns/public"
 
-export const Route = createFileRoute("/events/")({ component: EventsPage })
+type EventStatus = {
+  id: string
+  slug: string
+  name: string
+  color: string
+}
 
-const LEGEND = [
-  { color: "#018BCE", label: "Fashion & Style" },
-  { color: "#8B5CF6", label: "Music & Arts" },
-  { color: "#10B981", label: "Tech & Business" },
-  { color: "#F59E0B", label: "Design" },
-  { color: "#EF4444", label: "Community" },
-  { color: "#EC4899", label: "Market & Crafts" },
-]
+type DbEvent = {
+  id: string
+  name: string
+  startAt: Date | string
+  endAt: Date | string
+  location: string
+  description: string
+  tags: string[]
+  image: string
+  status: EventStatus
+}
+
+type CalendarEvent = {
+  id: string
+  name: string
+  startAt: Date
+  endAt: Date
+  location: string
+  description: string
+  tags: string[]
+  image: string
+  status: EventStatus
+}
+
+function toDate(d: Date | string): Date {
+  return d instanceof Date ? d : new Date(d)
+}
+
+export const Route = createFileRoute("/events/")({
+  loader: async () => {
+    const [events, statuses] = await Promise.all([
+      getEventsFn(),
+      getEventStatusesFn(),
+    ])
+    return { events: events as DbEvent[], statuses: statuses as EventStatus[] }
+  },
+  component: EventsPage,
+})
 
 function CalendarTitle() {
   const [month] = useCalendarMonth()
@@ -48,7 +82,7 @@ function CalendarTitle() {
   )
 }
 
-function EventCard({ event, onClick }: { event: AppEvent; onClick: () => void }) {
+function EventCard({ event, onClick }: { event: CalendarEvent; onClick: () => void }) {
   return (
     <li
       className="flex gap-4 py-6 border-b border-border last:border-0 cursor-pointer group"
@@ -89,9 +123,10 @@ function EventCard({ event, onClick }: { event: AppEvent; onClick: () => void })
           <span className="truncate">{event.location}</span>
         </div>
 
-        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-          {event.description}
-        </p>
+        <div
+          className="text-xs text-muted-foreground leading-relaxed line-clamp-2 rich-text"
+          dangerouslySetInnerHTML={{ __html: event.description }}
+        />
 
         <Separator className="my-0.5" />
 
@@ -118,18 +153,24 @@ function EventCard({ event, onClick }: { event: AppEvent; onClick: () => void })
 }
 
 function EventsPage() {
-  const [selectedEvent, setSelectedEvent] = useState<AppEvent | null>(null)
+  const { events: dbEvents, statuses } = Route.useLoaderData()
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
   const dateRefs = useRef<Record<string, HTMLElement | null>>({})
 
+  const events = useMemo<CalendarEvent[]>(
+    () => dbEvents.map((e) => ({ ...e, startAt: toDate(e.startAt), endAt: toDate(e.endAt) })),
+    [dbEvents],
+  )
+
   const groupedEvents = useMemo(() => {
-    const groups: Record<string, AppEvent[]> = {}
+    const groups: Record<string, CalendarEvent[]> = {}
     for (const event of events) {
       const key = format(event.endAt, "yyyy-MM-dd")
       if (!groups[key]) groups[key] = []
       groups[key].push(event)
     }
     return Object.entries(groups).sort(([a], [b]) => a.localeCompare(b))
-  }, [])
+  }, [events])
 
   const handleDayClick = useCallback((date: Date) => {
     const key = format(date, "yyyy-MM-dd")
@@ -146,7 +187,6 @@ function EventsPage() {
       <main className="min-h-screen pt-36 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
-          {/* Page header */}
           <header className="flex flex-row items-end justify-between gap-6 border-b border-border pb-7 mb-8">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[0.95] text-foreground">
               All Events
@@ -156,21 +196,21 @@ function EventsPage() {
             </p>
           </header>
 
-          {/* Split layout */}
           <div className="flex flex-col xl:flex-row gap-8 items-start">
 
-            {/* Calendar — sticky on desktop */}
             <div className="w-full xl:sticky xl:top-24 xl:w-[520px] shrink-0">
-              <div className="flex flex-wrap gap-3 mb-4">
-                {LEGEND.map(({ color, label }) => (
-                  <div key={label} className="flex items-center gap-1.5">
-                    <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: color }} />
-                    <span className="text-[11px] text-muted-foreground uppercase tracking-[0.12em]">
-                      {label}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              {statuses.length > 0 && (
+                <div className="flex flex-wrap gap-3 mb-4">
+                  {statuses.map(({ id, color, name }) => (
+                    <div key={id} className="flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: color }} />
+                      <span className="text-[11px] text-muted-foreground uppercase tracking-[0.12em]">
+                        {name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <CalendarProvider
                 locale="en-US"
@@ -204,37 +244,42 @@ function EventsPage() {
               </CalendarProvider>
             </div>
 
-            {/* Events list */}
             <div className="flex-1 min-w-0">
-              {groupedEvents.map(([dateKey, dayEvents]) => {
-                const [y, m, d] = dateKey.split("-").map(Number)
-                const dateObj = new Date(y, m - 1, d)
-                return (
-                  <section
-                    key={dateKey}
-                    ref={(el) => { dateRefs.current[dateKey] = el }}
-                    className="mb-8 scroll-mt-28"
-                  >
-                    <div className="flex items-baseline gap-3 mb-1 pb-3 border-b border-border">
-                      <span className="text-4xl font-bold tabular-nums leading-none text-foreground">
-                        {format(dateObj, "d")}
-                      </span>
-                      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                        {format(dateObj, "EEEE, MMM yyyy")}
-                      </span>
-                      <span className="ml-auto text-xs text-muted-foreground shrink-0">
-                        {dayEvents.length} event{dayEvents.length !== 1 ? "s" : ""}
-                      </span>
-                    </div>
+              {groupedEvents.length === 0 ? (
+                <div className="text-sm text-muted-foreground py-12 text-center">
+                  No events scheduled yet.
+                </div>
+              ) : (
+                groupedEvents.map(([dateKey, dayEvents]) => {
+                  const [y, m, d] = dateKey.split("-").map(Number)
+                  const dateObj = new Date(y, m - 1, d)
+                  return (
+                    <section
+                      key={dateKey}
+                      ref={(el) => { dateRefs.current[dateKey] = el }}
+                      className="mb-8 scroll-mt-28"
+                    >
+                      <div className="flex items-baseline gap-3 mb-1 pb-3 border-b border-border">
+                        <span className="text-4xl font-bold tabular-nums leading-none text-foreground">
+                          {format(dateObj, "d")}
+                        </span>
+                        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                          {format(dateObj, "EEEE, MMM yyyy")}
+                        </span>
+                        <span className="ml-auto text-xs text-muted-foreground shrink-0">
+                          {dayEvents.length} event{dayEvents.length !== 1 ? "s" : ""}
+                        </span>
+                      </div>
 
-                    <ul>
-                      {dayEvents.map((event) => (
-                        <EventCard key={event.id} event={event} onClick={() => setSelectedEvent(event)} />
-                      ))}
-                    </ul>
-                  </section>
-                )
-              })}
+                      <ul>
+                        {dayEvents.map((event) => (
+                          <EventCard key={event.id} event={event} onClick={() => setSelectedEvent(event)} />
+                        ))}
+                      </ul>
+                    </section>
+                  )
+                })
+              )}
             </div>
 
           </div>
@@ -273,9 +318,10 @@ function EventsPage() {
                   <span>{selectedEvent.location}</span>
                 </div>
 
-                <DialogDescription className="text-sm leading-relaxed">
-                  {selectedEvent.description}
-                </DialogDescription>
+                <div
+                  className="text-sm leading-relaxed text-muted-foreground rich-text"
+                  dangerouslySetInnerHTML={{ __html: selectedEvent.description }}
+                />
 
                 <Separator />
 
