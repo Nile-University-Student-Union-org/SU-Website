@@ -50,6 +50,22 @@ type Committee = {
 }
 
 export const Route = createFileRoute("/about")({
+  head: () => ({
+    meta: [
+      { title: "About — NUSU" },
+      {
+        name: "description",
+        content:
+          "Learn about the Nile University Student Union — our mission, committees, and the board members who represent you.",
+      },
+      { property: "og:title", content: "About — NUSU" },
+      {
+        property: "og:description",
+        content:
+          "Learn about the Nile University Student Union — our mission, committees, and the board members who represent you.",
+      },
+    ],
+  }),
   loader: async () => {
     const [aboutHero, aboutCTA, committees] = await Promise.all([
       getAboutHeroFn(),

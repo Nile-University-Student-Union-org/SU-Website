@@ -18,6 +18,22 @@ import { submitContactFn } from "@/lib/server-fns/contact"
 import { getContactInfoFn, getOfficeHoursFn } from "@/lib/server-fns/public"
 
 export const Route = createFileRoute("/contact")({
+  head: () => ({
+    meta: [
+      { title: "Contact — NUSU" },
+      {
+        name: "description",
+        content:
+          "Get in touch with the Nile University Student Union. Reach out by email, phone, or visit us during office hours.",
+      },
+      { property: "og:title", content: "Contact — NUSU" },
+      {
+        property: "og:description",
+        content:
+          "Get in touch with the Nile University Student Union. Reach out by email, phone, or visit us during office hours.",
+      },
+    ],
+  }),
   loader: async () => {
     const [contactInfo, officeHours] = await Promise.all([
       getContactInfoFn(),

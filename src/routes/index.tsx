@@ -18,6 +18,22 @@ import {
 } from "@/lib/server-fns/public"
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "NUSU — Nile University Student Union" },
+      {
+        name: "description",
+        content:
+          "The official website of Nile University Student Union. Six committees, sixty members — representing every student.",
+      },
+      { property: "og:title", content: "NUSU — Nile University Student Union" },
+      {
+        property: "og:description",
+        content:
+          "The official website of Nile University Student Union. Six committees, sixty members — representing every student.",
+      },
+    ],
+  }),
   loader: async () => {
     const [
       sponsors,
@@ -52,10 +68,29 @@ export const Route = createFileRoute("/")({
   component: Home,
 })
 
+const ORG_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: "Nile University Student Union",
+  alternateName: "NUSU",
+  description:
+    "The official student union of Nile University",
+  logo: "/logo.svg",
+  parentOrganization: {
+    "@type": "CollegeOrUniversity",
+    name: "Nile University",
+  },
+}
+
 function Home() {
   const data = Route.useLoaderData()
   return (
     <>
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD) }}
+      />
       <main>
         <Navbar />
         <HeroSection />
