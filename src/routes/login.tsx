@@ -13,6 +13,12 @@ const loginSearchSchema = z.object({
 })
 
 export const Route = createFileRoute("/login")({
+  head: () => ({
+    meta: [
+      { title: "Sign in — NUSU" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
   validateSearch: loginSearchSchema,
   beforeLoad: async ({ search }) => {
     const session = await getAdminSessionFn()

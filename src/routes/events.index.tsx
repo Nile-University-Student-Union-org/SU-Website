@@ -62,6 +62,22 @@ function toDate(d: Date | string): Date {
 }
 
 export const Route = createFileRoute("/events/")({
+  head: () => ({
+    meta: [
+      { title: "Events — NUSU" },
+      {
+        name: "description",
+        content:
+          "Browse upcoming events from the Nile University Student Union — workshops, socials, and campus activities.",
+      },
+      { property: "og:title", content: "Events — NUSU" },
+      {
+        property: "og:description",
+        content:
+          "Browse upcoming events from the Nile University Student Union — workshops, socials, and campus activities.",
+      },
+    ],
+  }),
   loader: async () => {
     const [events, statuses] = await Promise.all([
       getEventsFn(),

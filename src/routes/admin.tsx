@@ -42,6 +42,12 @@ import {
 } from "@/components/ui/sidebar"
 
 export const Route = createFileRoute("/admin")({
+  head: () => ({
+    meta: [
+      { title: "Admin — NUSU" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
   beforeLoad: async ({ location }) => {
     const session = await getAdminSessionFn()
     if (!session) {
