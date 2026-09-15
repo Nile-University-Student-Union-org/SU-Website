@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { Navbar } from "@/components/Navbar"
-import { HeroSection } from "@/components/HeroSection"
-import { SponsorsSection } from "@/components/SponsorsSection"
-import { UpcomingEventsSection } from "@/components/UpcomingEventsSection"
-import { MissionSection } from "@/components/MissionSection"
-import { CTASection } from "@/components/CTASection"
-import { SiteFooter } from "@/components/SiteFooter"
+import { Navbar } from "@client/components/Navbar"
+import { HeroSection } from "@client/components/HeroSection"
+import { SponsorsSection } from "@client/components/SponsorsSection"
+import { UpcomingEventsSection } from "@client/components/UpcomingEventsSection"
+import { MissionSection } from "@client/components/MissionSection"
+import { CTASection } from "@client/components/CTASection"
+import { SiteFooter } from "@client/components/SiteFooter"
 import {
   getSponsorsPublicFn,
   getWhoWeAreFn,
@@ -15,7 +15,7 @@ import {
   getFooterFn,
   getContactInfoFn,
   getSocialLinksFn,
-} from "@/lib/server-fns/public"
+} from "@server/server-fns/public"
 
 export const Route = createFileRoute("/")({
   head: () => ({

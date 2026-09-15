@@ -3,24 +3,24 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, Edit01Icon, Delete01Icon } from "@hugeicons/core-free-icons"
-import { AdminShell } from "@/components/admin/AdminShell"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { AdminShell } from "@client/components/admin/AdminShell"
+import { Button } from "@client/components/ui/button"
+import { Input } from "@client/components/ui/input"
+import { Label } from "@client/components/ui/label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@client/components/ui/select"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,7 +30,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@client/components/ui/alert-dialog"
 import {
   Table,
   TableBody,
@@ -38,14 +38,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { socialLinkSchema } from "@/lib/validators"
+} from "@client/components/ui/table"
+import { socialLinkSchema } from "@shared/validators"
 import {
   listSocialLinksAdminFn,
   createSocialLinkFn,
   updateSocialLinkFn,
   deleteSocialLinkFn,
-} from "@/lib/server-fns/admin/social-links"
+} from "@server/server-fns/admin/social-links"
 
 type SocialLink = {
   id: string
@@ -268,7 +268,7 @@ function SocialLinkDialog({
             <Label>Icon</Label>
             <Select
               value={form.icon}
-              onValueChange={(v) => setForm((f) => ({ ...f, icon: v }))}
+              onValueChange={(v) => setForm((f) => ({ ...f, icon: v ?? "" }))}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select an icon" />

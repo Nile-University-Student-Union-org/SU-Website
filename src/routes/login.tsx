@@ -1,12 +1,12 @@
 import { createFileRoute, redirect, useNavigate, useSearch } from "@tanstack/react-router"
 import { useState } from "react"
 import { z } from "zod"
-import { authClient } from "@/lib/auth-client"
-import { signInSchema } from "@/lib/validators"
-import { getAdminSessionFn } from "@/lib/server-fns/session"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { authClient } from "@client/auth-client"
+import { signInSchema } from "@shared/validators"
+import { getAdminSessionFn } from "@server/server-fns/session"
+import { Button } from "@client/components/ui/button"
+import { Input } from "@client/components/ui/input"
+import { Label } from "@client/components/ui/label"
 
 const loginSearchSchema = z.object({
   redirect: z.string().optional().catch(undefined),

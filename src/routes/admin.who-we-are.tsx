@@ -1,13 +1,13 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
 import { toast } from "sonner"
-import { AdminShell, AdminFieldRow } from "@/components/admin/AdminShell"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { whoWeAreSchema } from "@/lib/validators"
-import { getWhoWeAreFn } from "@/lib/server-fns/public"
-import { updateWhoWeAreFn } from "@/lib/server-fns/admin/singletons"
+import { AdminShell, AdminFieldRow } from "@client/components/admin/AdminShell"
+import { Input } from "@client/components/ui/input"
+import { Textarea } from "@client/components/ui/textarea"
+import { Button } from "@client/components/ui/button"
+import { whoWeAreSchema } from "@shared/validators"
+import { getWhoWeAreFn } from "@server/server-fns/public"
+import { updateWhoWeAreFn } from "@server/server-fns/admin/singletons"
 
 export const Route = createFileRoute("/admin/who-we-are")({
   loader: async () => ({ data: await getWhoWeAreFn() }),

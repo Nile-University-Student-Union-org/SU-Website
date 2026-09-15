@@ -3,18 +3,18 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, Edit01Icon, Delete01Icon } from "@hugeicons/core-free-icons"
-import { AdminShell } from "@/components/admin/AdminShell"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import { AdminShell } from "@client/components/admin/AdminShell"
+import { Button } from "@client/components/ui/button"
+import { Input } from "@client/components/ui/input"
+import { Textarea } from "@client/components/ui/textarea"
+import { Label } from "@client/components/ui/label"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,7 +24,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@client/components/ui/alert-dialog"
 import {
   Table,
   TableBody,
@@ -32,14 +32,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { committeeSchema } from "@/lib/validators"
+} from "@client/components/ui/table"
+import { committeeSchema } from "@shared/validators"
 import {
   listCommitteesAdminFn,
   createCommitteeFn,
   updateCommitteeFn,
   deleteCommitteeFn,
-} from "@/lib/server-fns/admin/committees"
+} from "@server/server-fns/admin/committees"
 
 type Committee = {
   id: string

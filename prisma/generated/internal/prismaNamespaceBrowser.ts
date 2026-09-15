@@ -55,7 +55,6 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  HomeHero: 'HomeHero',
   Sponsor: 'Sponsor',
   WhoWeAre: 'WhoWeAre',
   Stat: 'Stat',
@@ -149,21 +148,6 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
-
-
-export const HomeHeroScalarFieldEnum = {
-  id: 'id',
-  backgroundImage: 'backgroundImage',
-  foregroundImage: 'foregroundImage',
-  heroTextImage: 'heroTextImage',
-  primaryButtonLabel: 'primaryButtonLabel',
-  primaryButtonLink: 'primaryButtonLink',
-  secondaryButtonLabel: 'secondaryButtonLabel',
-  secondaryButtonLink: 'secondaryButtonLink',
-  updatedAt: 'updatedAt'
-} as const
-
-export type HomeHeroScalarFieldEnum = (typeof HomeHeroScalarFieldEnum)[keyof typeof HomeHeroScalarFieldEnum]
 
 
 export const SponsorScalarFieldEnum = {

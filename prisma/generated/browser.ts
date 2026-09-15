@@ -38,11 +38,6 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
- * Model HomeHero
- * 
- */
-export type HomeHero = Prisma.HomeHeroModel
-/**
  * Model Sponsor
  * 
  */

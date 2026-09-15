@@ -1,13 +1,13 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
 import { toast } from "sonner"
-import { AdminShell, AdminFieldRow } from "@/components/admin/AdminShell"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { officeHoursSchema } from "@/lib/validators"
-import { getOfficeHoursFn } from "@/lib/server-fns/public"
-import { updateOfficeHoursFn } from "@/lib/server-fns/admin/singletons"
+import { AdminShell, AdminFieldRow } from "@client/components/admin/AdminShell"
+import { Input } from "@client/components/ui/input"
+import { Textarea } from "@client/components/ui/textarea"
+import { Button } from "@client/components/ui/button"
+import { officeHoursSchema } from "@shared/validators"
+import { getOfficeHoursFn } from "@server/server-fns/public"
+import { updateOfficeHoursFn } from "@server/server-fns/admin/singletons"
 
 export const Route = createFileRoute("/admin/office-hours")({
   loader: async () => ({ data: await getOfficeHoursFn() }),

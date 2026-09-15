@@ -6,20 +6,20 @@ import {
   Linkedin01Icon,
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons"
-import { Navbar } from "@/components/Navbar"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import { Navbar } from "@client/components/Navbar"
+import { Button } from "@client/components/ui/button"
+import { Separator } from "@client/components/ui/separator"
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import {
   getAboutHeroFn,
   getAboutCTAFn,
   getCommitteesFn,
-} from "@/lib/server-fns/public"
+} from "@server/server-fns/public"
 
 type Member = {
   id: string

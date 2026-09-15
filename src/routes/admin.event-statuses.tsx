@@ -3,17 +3,17 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, Edit01Icon, Delete01Icon } from "@hugeicons/core-free-icons"
-import { AdminShell } from "@/components/admin/AdminShell"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { AdminShell } from "@client/components/admin/AdminShell"
+import { Button } from "@client/components/ui/button"
+import { Input } from "@client/components/ui/input"
+import { Label } from "@client/components/ui/label"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,7 +23,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@client/components/ui/alert-dialog"
 import {
   Table,
   TableBody,
@@ -31,14 +31,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { eventStatusSchema } from "@/lib/validators"
+} from "@client/components/ui/table"
+import { eventStatusSchema } from "@shared/validators"
 import {
   listEventStatusesAdminFn,
   createEventStatusFn,
   updateEventStatusFn,
   deleteEventStatusFn,
-} from "@/lib/server-fns/admin/events"
+} from "@server/server-fns/admin/events"
 
 type Status = {
   id: string

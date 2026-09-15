@@ -1,14 +1,14 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
 import { toast } from "sonner"
-import { AdminShell, AdminFieldRow } from "@/components/admin/AdminShell"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import { aboutCTASchema } from "@/lib/validators"
-import { getAboutCTAFn } from "@/lib/server-fns/public"
-import { updateAboutCTAFn } from "@/lib/server-fns/admin/singletons"
+import { AdminShell, AdminFieldRow } from "@client/components/admin/AdminShell"
+import { Input } from "@client/components/ui/input"
+import { Textarea } from "@client/components/ui/textarea"
+import { Button } from "@client/components/ui/button"
+import { Switch } from "@client/components/ui/switch"
+import { aboutCTASchema } from "@shared/validators"
+import { getAboutCTAFn } from "@server/server-fns/public"
+import { updateAboutCTAFn } from "@server/server-fns/admin/singletons"
 
 export const Route = createFileRoute("/admin/about-cta")({
   loader: async () => ({ data: await getAboutCTAFn() }),

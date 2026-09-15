@@ -165,9 +165,9 @@ The new admin can then sign in at `/login` with those credentials.
 
 ## Image uploads
 
-Image-bearing forms (sponsors, board members, events) display the recommended resolution and aspect ratio. Specs live in `src/lib/image-requirements.ts`.
+Image-bearing forms (sponsors, board members, events) display the recommended resolution and aspect ratio. Specs live in `src/shared/image-requirements.ts`.
 
-Uploads use presigned PUT URLs issued by `presignImageUploadFn` (`src/lib/server-fns/uploads.ts`), so the browser uploads directly to the storage provider without proxying through the Node server. The DB stores the resulting public URL.
+Uploads use presigned PUT URLs issued by `presignImageUploadFn` (`src/server/server-fns/uploads.ts`), so the browser uploads directly to the storage provider without proxying through the Node server. The DB stores the resulting public URL.
 
 ### Using MinIO locally (default)
 
@@ -215,19 +215,25 @@ pnpm test       # Vitest
 
 ```text
 src/
-  routes/               File-based routes (Home, About, Events, Contact, Admin)
-  routes/admin.tsx      Admin layout — Better Auth–guarded sidebar shell
-  components/           Page sections and shared UI components
-  components/ui/        shadcn-style primitives (sidebar, dialog, calendar, etc.)
-  components/admin/     Admin-only components (AdminShell, RichTextEditor, ImageUploader)
-  lib/auth.ts           Better Auth server instance (with admin plugin)
-  lib/auth-client.ts    Better Auth React client
-  lib/auth-shared.ts    Access-control statements shared by client + server
-  lib/server-auth.ts    requireAdmin / requireSuperAdmin server-side guards
-  lib/validators.ts     Zod schemas for every entity
-  lib/s3.ts             S3 client + presigned URL helper (supports custom endpoint)
-  lib/image-requirements.ts  Per-context image specs surfaced to editors
-  lib/server-fns/       createServerFn handlers (uploads, session, public reads, admin CRUD)
+  client/               Frontend UI, hooks, and browser client
+    components/         Page sections, compound UI, and shadcn primitives
+    components/ui/      shadcn-style primitives (sidebar, dialog, calendar, etc.)
+    components/admin/   Admin-only components (AdminShell, RichTextEditor, ImageUploader)
+    hooks/              Client React hooks (use-mobile.ts)
+    auth-client.ts      Better Auth React client
+  server/               Backend database, auth, storage, and server functions
+    db.ts               Prisma database connection
+    auth.ts             Better Auth server instance (with admin plugin)
+    server-auth.ts      requireAdmin / requireSuperAdmin server-side guards
+    s3.ts               S3 / MinIO client and presigned upload URL generator
+    server-fns/         TanStack Start createServerFn handlers (public, uploads, admin CRUD)
+    data/               Static fallback data (board, events)
+  shared/               Cross-boundary shared contracts and utilities
+    validators.ts       Zod validation schemas for every entity
+    auth-shared.ts      Access-control statements shared by client + server
+    image-requirements.ts Per-context image specs surfaced to editors
+    utils.ts            Shared classname and utility helpers
+  routes/               File-based routes & loaders (Home, About, Events, Contact, Admin)
 prisma/
   schema.prisma         Database schema
   seed.ts               Seed script (super admin + singletons)

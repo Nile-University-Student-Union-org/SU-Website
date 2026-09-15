@@ -21,8 +21,8 @@ import {
   InformationCircleIcon,
   BarChartIcon,
 } from "@hugeicons/core-free-icons"
-import { authClient } from "@/lib/auth-client"
-import { getAdminSessionFn } from "@/lib/server-fns/session"
+import { authClient } from "@client/auth-client"
+import { getAdminSessionFn } from "@server/server-fns/session"
 import {
   Sidebar,
   SidebarContent,
@@ -39,7 +39,7 @@ import {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@client/components/ui/sidebar"
 
 export const Route = createFileRoute("/admin")({
   head: () => ({

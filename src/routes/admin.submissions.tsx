@@ -4,15 +4,15 @@ import { format } from "date-fns"
 import { toast } from "sonner"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Delete01Icon, Mail01Icon, MailOpen01Icon } from "@hugeicons/core-free-icons"
-import { AdminShell } from "@/components/admin/AdminShell"
-import { Button } from "@/components/ui/button"
+import { AdminShell } from "@client/components/admin/AdminShell"
+import { Button } from "@client/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,7 +22,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@client/components/ui/alert-dialog"
 import {
   Table,
   TableBody,
@@ -30,12 +30,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@client/components/ui/table"
 import {
   listSubmissionsFn,
   markSubmissionReadFn,
   deleteSubmissionFn,
-} from "@/lib/server-fns/admin/submissions"
+} from "@server/server-fns/admin/submissions"
 
 type Submission = {
   id: string

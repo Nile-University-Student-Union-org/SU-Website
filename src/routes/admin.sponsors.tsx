@@ -3,19 +3,19 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, Edit01Icon, Delete01Icon } from "@hugeicons/core-free-icons"
-import { AdminShell } from "@/components/admin/AdminShell"
-import { ImageUploader } from "@/components/admin/ImageUploader"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import { AdminShell } from "@client/components/admin/AdminShell"
+import { ImageUploader } from "@client/components/admin/ImageUploader"
+import { Button } from "@client/components/ui/button"
+import { Input } from "@client/components/ui/input"
+import { Textarea } from "@client/components/ui/textarea"
+import { Label } from "@client/components/ui/label"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,14 +25,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { sponsorSchema } from "@/lib/validators"
+} from "@client/components/ui/alert-dialog"
+import { sponsorSchema } from "@shared/validators"
 import {
   listSponsorsAdminFn,
   createSponsorFn,
   updateSponsorFn,
   deleteSponsorFn,
-} from "@/lib/server-fns/admin/sponsors"
+} from "@server/server-fns/admin/sponsors"
 
 type Sponsor = {
   id: string

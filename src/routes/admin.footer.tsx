@@ -1,12 +1,12 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
 import { toast } from "sonner"
-import { AdminShell, AdminFieldRow } from "@/components/admin/AdminShell"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { footerSchema } from "@/lib/validators"
-import { getFooterFn } from "@/lib/server-fns/public"
-import { updateFooterFn } from "@/lib/server-fns/admin/singletons"
+import { AdminShell, AdminFieldRow } from "@client/components/admin/AdminShell"
+import { Textarea } from "@client/components/ui/textarea"
+import { Button } from "@client/components/ui/button"
+import { footerSchema } from "@shared/validators"
+import { getFooterFn } from "@server/server-fns/public"
+import { updateFooterFn } from "@server/server-fns/admin/singletons"
 
 export const Route = createFileRoute("/admin/footer")({
   loader: async () => ({ data: await getFooterFn() }),

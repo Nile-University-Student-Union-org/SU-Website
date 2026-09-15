@@ -8,14 +8,14 @@ import {
   ArrowRight01Icon,
   CheckmarkCircle02Icon,
 } from "@hugeicons/core-free-icons"
-import { Navbar } from "@/components/Navbar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { contactSubmissionSchema } from "@/lib/validators"
-import { submitContactFn } from "@/lib/server-fns/contact"
-import { getContactInfoFn, getOfficeHoursFn } from "@/lib/server-fns/public"
+import { Navbar } from "@client/components/Navbar"
+import { Button } from "@client/components/ui/button"
+import { Input } from "@client/components/ui/input"
+import { Textarea } from "@client/components/ui/textarea"
+import { Label } from "@client/components/ui/label"
+import { contactSubmissionSchema } from "@shared/validators"
+import { submitContactFn } from "@server/server-fns/contact"
+import { getContactInfoFn, getOfficeHoursFn } from "@server/server-fns/public"
 
 export const Route = createFileRoute("/contact")({
   head: () => ({

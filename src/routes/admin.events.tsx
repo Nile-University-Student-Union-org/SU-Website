@@ -4,21 +4,21 @@ import { format } from "date-fns"
 import { toast } from "sonner"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, Edit01Icon, Delete01Icon, Calendar01Icon } from "@hugeicons/core-free-icons"
-import { AdminShell } from "@/components/admin/AdminShell"
-import { ImageUploader } from "@/components/admin/ImageUploader"
-import { RichTextEditor } from "@/components/admin/RichTextEditor"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { AdminShell } from "@client/components/admin/AdminShell"
+import { ImageUploader } from "@client/components/admin/ImageUploader"
+import { RichTextEditor } from "@client/components/admin/RichTextEditor"
+import { Button } from "@client/components/ui/button"
+import { Input } from "@client/components/ui/input"
+import { Label } from "@client/components/ui/label"
+import { Calendar } from "@client/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@client/components/ui/popover"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,7 +28,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@client/components/ui/alert-dialog"
 import {
   Table,
   TableBody,
@@ -36,22 +36,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@client/components/ui/table"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { eventSchema } from "@/lib/validators"
+} from "@client/components/ui/select"
+import { eventSchema } from "@shared/validators"
 import {
   listEventsAdminFn,
   createEventFn,
   updateEventFn,
   deleteEventFn,
   listEventStatusesAdminFn,
-} from "@/lib/server-fns/admin/events"
+} from "@server/server-fns/admin/events"
 
 type Status = { id: string; slug: string; name: string; color: string }
 
@@ -409,7 +408,7 @@ function EventDialog({
             <Label>Category</Label>
             <Select
               value={form.statusId}
-              onValueChange={(v) => setForm((f) => ({ ...f, statusId: v }))}
+              onValueChange={(v) => setForm((f) => ({ ...f, statusId: v ?? "" }))}
             >
               <SelectTrigger>
                 {statuses.find((s) => s.id === form.statusId)?.name}

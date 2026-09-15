@@ -1,12 +1,12 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
 import { toast } from "sonner"
-import { AdminShell, AdminFieldRow } from "@/components/admin/AdminShell"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { contactInfoSchema } from "@/lib/validators"
-import { getContactInfoFn } from "@/lib/server-fns/public"
-import { updateContactInfoFn } from "@/lib/server-fns/admin/singletons"
+import { AdminShell, AdminFieldRow } from "@client/components/admin/AdminShell"
+import { Input } from "@client/components/ui/input"
+import { Button } from "@client/components/ui/button"
+import { contactInfoSchema } from "@shared/validators"
+import { getContactInfoFn } from "@server/server-fns/public"
+import { updateContactInfoFn } from "@server/server-fns/admin/singletons"
 
 export const Route = createFileRoute("/admin/contact-info")({
   loader: async () => ({ data: await getContactInfoFn() }),

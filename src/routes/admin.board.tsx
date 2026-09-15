@@ -3,19 +3,19 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, Edit01Icon, Delete01Icon } from "@hugeicons/core-free-icons"
-import { AdminShell } from "@/components/admin/AdminShell"
-import { ImageUploader } from "@/components/admin/ImageUploader"
-import { RichTextEditor } from "@/components/admin/RichTextEditor"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { AdminShell } from "@client/components/admin/AdminShell"
+import { ImageUploader } from "@client/components/admin/ImageUploader"
+import { RichTextEditor } from "@client/components/admin/RichTextEditor"
+import { Button } from "@client/components/ui/button"
+import { Input } from "@client/components/ui/input"
+import { Label } from "@client/components/ui/label"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,7 +25,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@client/components/ui/alert-dialog"
 import {
   Table,
   TableBody,
@@ -33,17 +33,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@client/components/ui/table"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { boardMemberSchema } from "@/lib/validators"
-import { listBoardMembersAdminFn, createBoardMemberFn, updateBoardMemberFn, deleteBoardMemberFn } from "@/lib/server-fns/admin/board"
-import { listCommitteesAdminFn } from "@/lib/server-fns/admin/committees"
+} from "@client/components/ui/select"
+import { boardMemberSchema } from "@shared/validators"
+import { listBoardMembersAdminFn, createBoardMemberFn, updateBoardMemberFn, deleteBoardMemberFn } from "@server/server-fns/admin/board"
+import { listCommitteesAdminFn } from "@server/server-fns/admin/committees"
 
 type Member = {
   id: string
@@ -402,7 +401,7 @@ function MemberDialog({
             <Label>Committee</Label>
             <Select
               value={form.committeeId}
-              onValueChange={(v) => setForm((f) => ({ ...f, committeeId: v }))}
+              onValueChange={(v) => setForm((f) => ({ ...f, committeeId: v ?? "" }))}
             >
               <SelectTrigger>
                 {committees.find((c) => c.id == form.committeeId)?.name}

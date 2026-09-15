@@ -1,15 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { format } from "date-fns"
 import { useRef, useMemo, useCallback, useState } from "react"
-import { Navbar } from "@/components/Navbar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import { Navbar } from "@client/components/Navbar"
+import { Badge } from "@client/components/ui/badge"
+import { Button } from "@client/components/ui/button"
+import { Separator } from "@client/components/ui/separator"
 import {
   Dialog,
   DialogContent,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Location01Icon, Ticket01Icon } from "@hugeicons/core-free-icons"
 import {
@@ -23,8 +23,8 @@ import {
   useCalendarMonth,
   useCalendarYear,
   monthsForLocale,
-} from "@/components/kibo-ui/calendar"
-import { getEventsFn, getEventStatusesFn } from "@/lib/server-fns/public"
+} from "@client/components/kibo-ui/calendar"
+import { getEventsFn, getEventStatusesFn } from "@server/server-fns/public"
 
 type EventStatus = {
   id: string

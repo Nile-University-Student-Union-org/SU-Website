@@ -20,7 +20,7 @@ services:
       retries: 5
 
   minio:
-    image: minio/minio:latest
+    image: quay.io/minio/minio:latest
     container_name: nusu-minio
     env_file: .env
     environment:
@@ -40,7 +40,7 @@ services:
 
   # Creates the S3 bucket on first startup, then exits.
   minio-init:
-    image: minio/mc:latest
+    image: quay.io/minio/mc:latest
     container_name: nusu-minio-init
     depends_on:
       minio:

@@ -4,17 +4,17 @@ import { format } from "date-fns"
 import { toast } from "sonner"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Delete01Icon, UserAdd01Icon } from "@hugeicons/core-free-icons"
-import { AdminShell } from "@/components/admin/AdminShell"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { AdminShell } from "@client/components/admin/AdminShell"
+import { Button } from "@client/components/ui/button"
+import { Input } from "@client/components/ui/input"
+import { Label } from "@client/components/ui/label"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
+} from "@client/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,7 +24,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@client/components/ui/alert-dialog"
 import {
   Table,
   TableBody,
@@ -32,18 +32,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@client/components/ui/table"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { authClient } from "@/lib/auth-client"
-import { createMemberSchema } from "@/lib/validators"
-import { listAdminUsersFn, updateUserRoleFn } from "@/lib/server-fns/admin/users"
-import { getAdminSessionFn } from "@/lib/server-fns/session"
+} from "@client/components/ui/select"
+import { authClient } from "@client/auth-client"
+import { createMemberSchema } from "@shared/validators"
+import { listAdminUsersFn, updateUserRoleFn } from "@server/server-fns/admin/users"
+import { getAdminSessionFn } from "@server/server-fns/session"
 
 type AdminUser = {
   id: string
