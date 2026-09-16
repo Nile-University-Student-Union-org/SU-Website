@@ -208,8 +208,7 @@ export function Navbar() {
               key={`rim-${sheenKey}`}
               className="absolute inset-0 rounded-[inherit] animate-rim-flash pointer-events-none"
               style={{
-                boxShadow:
-                  "inset 0 1px 1.5px 0 rgba(255,255,255,0.65), inset 0 -1px 1px 0 rgba(45,177,250,0.35)",
+                boxShadow: "inset 0 1.5px 2px 0 rgba(255,255,255,0.65)",
               }}
             />
           </div>

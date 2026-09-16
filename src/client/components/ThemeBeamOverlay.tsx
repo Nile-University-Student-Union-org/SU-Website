@@ -107,16 +107,6 @@ export function ThemeBeamOverlay() {
         }}
       />
 
-      {/* ── Stratum 5: Anamorphic Lens Flare Streak (Crossing Along Navbar Elevation) ── */}
-      <div
-        key={`beam-anamorphic-${beamKey}`}
-        className="absolute top-[4.2rem] sm:top-[5.2rem] left-0 w-full h-[2.5px] animate-anamorphic-streak pointer-events-none"
-        style={{
-          background: isDark
-            ? "linear-gradient(90deg, transparent 0%, transparent 40%, rgba(45,177,250,0.3) 46%, rgba(255,255,255,0.95) 50%, rgba(45,177,250,0.3) 54%, transparent 60%, transparent 100%)"
-            : "linear-gradient(90deg, transparent 0%, transparent 40%, rgba(229,168,35,0.35) 46%, rgba(255,255,255,0.95) 50%, rgba(45,177,250,0.25) 54%, transparent 60%, transparent 100%)",
-        }}
-      />
 
       {/* ── Stratum 6: Atmospheric Ambient Lighting Flash & Vignette Ripple ── */}
       <div
