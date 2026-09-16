@@ -329,6 +329,97 @@
   }
 }
 
+/* ── Full-Screen Caustic Theme Beam (60/120 FPS GPU Composite) ── */
+@keyframes screen-beam-sweep {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes screen-beam-bloom {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  88% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes screen-beam-sheen {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  88% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes screen-anamorphic-streak {
+  0% {
+    transform: translate3d(-100vw, 0, 0) scaleX(0.7);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.95;
+    transform: translate3d(-40vw, 0, 0) scaleX(1.1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate3d(0vw, 0, 0) scaleX(1.3);
+  }
+  80% {
+    opacity: 0.95;
+    transform: translate3d(40vw, 0, 0) scaleX(1.1);
+  }
+  100% {
+    transform: translate3d(100vw, 0, 0) scaleX(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes screen-flash {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
 @keyframes icon-spring-pop {
   0% {
     transform: scale(0.82) rotate(-30deg);
@@ -419,15 +510,44 @@
 }
 
 .animate-specular-sweep {
-  animation: specular-sweep 0.65s cubic-bezier(0.25, 1, 0.4, 1) forwards;
+  animation: specular-sweep 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   will-change: transform;
   transform: translateZ(0);
 }
 
 .animate-rim-flash {
-  animation: rim-flash 0.65s cubic-bezier(0.25, 1, 0.4, 1) forwards;
+  animation: rim-flash 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   will-change: opacity;
   transform: translateZ(0);
+}
+
+.animate-screen-beam-sweep {
+  animation: screen-beam-sweep 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.animate-screen-beam-bloom {
+  animation: screen-beam-bloom 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.animate-screen-beam-sheen {
+  animation: screen-beam-sheen 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.animate-anamorphic-streak {
+  animation: screen-anamorphic-streak 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.animate-screen-flash {
+  animation: screen-flash 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: opacity;
 }
 
 .animate-icon-pop {
@@ -467,6 +587,11 @@
   .animate-nav-click-glint,
   .animate-specular-sweep,
   .animate-rim-flash,
+  .animate-screen-beam-sweep,
+  .animate-screen-beam-bloom,
+  .animate-screen-beam-sheen,
+  .animate-anamorphic-streak,
+  .animate-screen-flash,
   .animate-icon-pop,
   .animate-hero-bg,
   .animate-hero-hand,

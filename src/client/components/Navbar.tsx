@@ -89,13 +89,19 @@ export function Navbar() {
     setIsSheenActive(true)
     sheenTimerRef.current = setTimeout(() => {
       setIsSheenActive(false)
-    }, 700)
+    }, 900)
   }
 
   // Detect dark mode attribute on root element
   useEffect(() => {
+    let initial = true
     const checkDark = () => {
-      setIsDarkTheme(document.documentElement.classList.contains("dark"))
+      const isDark = document.documentElement.classList.contains("dark")
+      setIsDarkTheme(isDark)
+      if (!initial) {
+        triggerSheen()
+      }
+      initial = false
     }
     checkDark()
     const observer = new MutationObserver(checkDark)
@@ -116,7 +122,6 @@ export function Navbar() {
     localStorage.setItem("theme", next ? "dark" : "light")
     localStorage.setItem("admin-theme", next ? "dark" : "light")
     setIsDarkTheme(next)
-    triggerSheen()
   }
 
   // Scroll detection
@@ -192,8 +197,9 @@ export function Navbar() {
               key={`sheen-${sheenKey}`}
               className="absolute inset-0 w-full h-full animate-specular-sweep pointer-events-none"
               style={{
-                background:
-                  "linear-gradient(108deg, transparent 0%, transparent 37%, rgba(255,255,255,0.03) 40%, rgba(229,168,35,0.12) 44%, rgba(255,255,255,0.82) 48.5%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.82) 51.5%, rgba(45,177,250,0.35) 56%, rgba(255,255,255,0.03) 60%, transparent 63%, transparent 100%)",
+                background: isDark
+                  ? "linear-gradient(108deg, transparent 0%, transparent 40%, rgba(1,139,206,0.2) 45%, rgba(45,177,250,0.75) 48.8%, rgba(255,255,255,0.98) 49.85%, #ffffff 50%, rgba(255,255,255,0.98) 50.15%, rgba(45,177,250,0.75) 51.2%, rgba(229,168,35,0.3) 55%, transparent 60%, transparent 100%)"
+                  : "linear-gradient(108deg, transparent 0%, transparent 40%, rgba(229,168,35,0.25) 45%, rgba(229,168,35,0.85) 48.8%, rgba(255,255,255,0.98) 49.85%, #ffffff 50%, rgba(255,255,255,0.98) 50.15%, rgba(45,177,250,0.7) 51.2%, rgba(1,139,206,0.2) 55%, transparent 60%, transparent 100%)",
               }}
             />
 

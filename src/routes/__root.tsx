@@ -3,6 +3,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { Toaster } from "@client/components/ui/sonner"
 import { RouteProgress } from "@client/components/RouteProgress"
+import { ThemeBeamOverlay } from "@client/components/ThemeBeamOverlay"
 
 import appCss from "../styles.css?url"
 
@@ -81,6 +82,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body>
+        <ThemeBeamOverlay />
         <RouteProgress>
           {children}
         </RouteProgress>
