@@ -570,3 +570,39 @@ input[type="radio"] {
 .animate-ambient-glow {
   animation: ambient-glow 8s ease-in-out infinite;
 }
+
+/* ── Liquid Glass Card & Input Primitives ─────────────────────────────────── */
+.liquid-glass-card {
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  background: rgba(255, 255, 255, 0.54);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.85),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.95),
+    0 24px 56px -15px rgba(15, 48, 86, 0.16),
+    0 4px 16px -4px rgba(15, 48, 86, 0.06);
+}
+
+.dark .liquid-glass-card {
+  background: rgba(4, 12, 22, 0.58);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.22),
+    0 32px 64px -16px rgba(0, 0, 0, 0.85),
+    0 0 45px -10px rgba(1, 139, 206, 0.18);
+}
+
+.liquid-glass-input {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(15, 48, 86, 0.12);
+  box-shadow: inset 0 1px 2px 0 rgba(15, 48, 86, 0.03);
+}
+
+.dark .liquid-glass-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
