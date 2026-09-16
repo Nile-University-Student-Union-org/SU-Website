@@ -40,12 +40,12 @@ function FeaturedEventCard({ event }: { event: EventData }) {
           <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
             {format(startAt, "MMM")}
           </span>
-          <span className="text-3xl lg:text-4xl font-bold text-foreground tabular-nums leading-none mt-1">
+          <span className="text-3xl lg:text-4xl font-bold text-nusu-navy dark:text-white tabular-nums leading-none mt-1">
             {format(startAt, "d")}
           </span>
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/55 to-transparent p-6 lg:p-10">
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-nusu-navy/95 via-nusu-navy/60 to-transparent p-6 lg:p-10">
           <div className="flex items-center gap-2 mb-3">
             <span
               className="h-1.5 w-1.5 rounded-full shrink-0"
@@ -81,7 +81,7 @@ function CompactEventCard({ event }: { event: EventData }) {
   return (
     <Link
       to="/events"
-      className="group flex-1 flex gap-4 p-4 lg:p-5 rounded-2xl border border-border bg-background hover:border-foreground transition-colors duration-300 min-h-0"
+      className="group flex-1 flex gap-4 p-4 lg:p-5 rounded-2xl border border-border bg-background hover:border-nusu-blue/50 hover:shadow-xs transition-all duration-300 min-h-0"
     >
       <div className="relative w-28 sm:w-36 shrink-0 rounded-xl overflow-hidden bg-muted self-stretch">
         <img
@@ -97,7 +97,7 @@ function CompactEventCard({ event }: { event: EventData }) {
 
       <div className="flex-1 min-w-0 flex flex-col gap-1.5 py-0.5">
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl sm:text-3xl font-bold leading-none text-foreground tabular-nums">
+          <span className="text-2xl sm:text-3xl font-bold leading-none text-nusu-navy dark:text-white tabular-nums">
             {format(startAt, "d")}
           </span>
           <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
@@ -115,7 +115,7 @@ function CompactEventCard({ event }: { event: EventData }) {
           </span>
         </div>
 
-        <h4 className="text-sm sm:text-base font-bold uppercase tracking-tight text-foreground leading-tight line-clamp-2 group-hover:text-nusu-blue transition-colors">
+        <h4 className="text-sm sm:text-base font-bold uppercase tracking-tight text-nusu-navy dark:text-white leading-tight line-clamp-2 group-hover:text-nusu-blue transition-colors">
           {event.name}
         </h4>
 
@@ -139,17 +139,17 @@ export function UpcomingEventsSection({ events }: { events: EventData[] }) {
 
         <div className="mb-10 lg:mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
-            <p className="text-xs font-medium tracking-[0.46em] text-muted-foreground uppercase">
+            <p className="text-xs font-semibold tracking-[0.46em] text-nusu-blue uppercase">
               What's next
             </p>
-            <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-foreground">
+            <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-nusu-navy dark:text-white">
               Upcoming Events
             </h2>
           </div>
 
           <Link
             to="/events"
-            className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-foreground hover:text-nusu-blue transition-colors self-start sm:self-end"
+            className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-nusu-navy dark:text-white hover:text-nusu-blue transition-colors self-start sm:self-end"
           >
             View All Events
             <HugeiconsIcon

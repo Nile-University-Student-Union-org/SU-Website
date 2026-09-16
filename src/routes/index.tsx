@@ -91,8 +91,8 @@ function Home() {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD) }}
       />
-      <main>
-        <Navbar />
+      <Navbar />
+      <main className="animate-page-enter">
         <HeroSection />
         <SponsorsSection sponsors={data.sponsors} />
         <UpcomingEventsSection events={data.upcomingEvents} />

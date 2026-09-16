@@ -15,7 +15,13 @@ import { Textarea } from "@client/components/ui/textarea"
 import { Label } from "@client/components/ui/label"
 import { contactSubmissionSchema } from "@shared/validators"
 import { submitContactFn } from "@server/server-fns/contact"
-import { getContactInfoFn, getOfficeHoursFn } from "@server/server-fns/public"
+import {
+  getContactInfoFn,
+  getOfficeHoursFn,
+  getFooterFn,
+  getSocialLinksFn,
+} from "@server/server-fns/public"
+import { SiteFooter } from "@client/components/SiteFooter"
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -35,11 +41,13 @@ export const Route = createFileRoute("/contact")({
     ],
   }),
   loader: async () => {
-    const [contactInfo, officeHours] = await Promise.all([
+    const [contactInfo, officeHours, footer, socialLinks] = await Promise.all([
       getContactInfoFn(),
       getOfficeHoursFn(),
+      getFooterFn(),
+      getSocialLinksFn(),
     ])
-    return { contactInfo, officeHours }
+    return { contactInfo, officeHours, footer, socialLinks }
   },
   component: ContactPage,
 })
@@ -57,7 +65,7 @@ function FormField({
     <div className="flex flex-col gap-2">
       <Label
         htmlFor={htmlFor}
-        className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground"
+        className="text-[10px] font-semibold uppercase tracking-[0.25em] text-nusu-navy dark:text-nusu-blue"
       >
         {label}
       </Label>
@@ -67,7 +75,7 @@ function FormField({
 }
 
 function ContactPage() {
-  const { contactInfo, officeHours } = Route.useLoaderData()
+  const { contactInfo, officeHours, footer, socialLinks } = Route.useLoaderData()
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -132,14 +140,14 @@ function ContactPage() {
     <>
       <Navbar />
 
-      <main className="min-h-screen pt-36 pb-24">
+      <main className="min-h-screen pt-36 pb-24 animate-page-enter">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end border-b border-border pb-10">
             <div className="lg:col-span-8">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-muted-foreground mb-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-nusu-blue mb-6">
                 Talk to NUSU
               </p>
-              <h1 className="text-5xl sm:text-7xl lg:text-[8rem] font-bold uppercase tracking-tight leading-[0.9] text-foreground">
+              <h1 className="text-5xl sm:text-7xl lg:text-[8rem] font-bold uppercase tracking-tight leading-[0.9] text-nusu-navy dark:text-white">
                 Get in<br />Touch
               </h1>
             </div>
@@ -156,21 +164,21 @@ function ContactPage() {
 
             <aside className="lg:col-span-4 flex flex-col gap-8">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-foreground mb-4">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-nusu-navy dark:text-nusu-blue mb-4">
                   Quick channels
                 </p>
                 <ul className="flex flex-col gap-1">
                   {contactDetails.map(({ icon, label, value, href }) => {
                     const Inner = (
                       <div className="flex items-start gap-4 py-4 border-b border-border group">
-                        <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center shrink-0 group-hover:bg-foreground group-hover:text-background transition-colors">
+                        <div className="h-10 w-10 rounded-full bg-nusu-navy/10 dark:bg-nusu-blue/20 text-nusu-navy dark:text-nusu-blue-light flex items-center justify-center shrink-0 group-hover:bg-gradient-to-br group-hover:from-nusu-navy group-hover:to-nusu-blue group-hover:text-white transition-all shadow-xs">
                           <HugeiconsIcon icon={icon} size={16} strokeWidth={1.75} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground mb-1">
                             {label}
                           </p>
-                          <p className="text-sm font-medium text-foreground break-words">
+                          <p className="text-sm font-medium text-nusu-navy dark:text-white break-words group-hover:text-nusu-blue transition-colors">
                             {value}
                           </p>
                         </div>
@@ -192,11 +200,11 @@ function ContactPage() {
               </div>
 
               {officeHours && (
-                <div className="rounded-2xl bg-muted/60 p-6">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-muted-foreground mb-2">
+                <div className="rounded-2xl bg-gradient-to-br from-nusu-navy/5 via-nusu-blue/5 to-transparent border border-nusu-blue/20 p-6">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-nusu-blue mb-2">
                     Office hours
                   </p>
-                  <p className="text-sm text-foreground leading-relaxed">
+                  <p className="text-sm text-nusu-navy dark:text-white leading-relaxed">
                     {officeHours.dayRange}<br />
                     {officeHours.hours}
                   </p>
@@ -208,14 +216,14 @@ function ContactPage() {
             </aside>
 
             <div className="lg:col-span-8">
-              <div className="rounded-3xl border border-border bg-background p-6 sm:p-8 lg:p-10">
+              <div className="rounded-3xl border border-border/80 bg-background p-6 sm:p-8 lg:p-10 shadow-[0_15px_45px_-15px_rgba(15,48,86,0.06)]">
 
                 {submitted ? (
                   <div className="flex flex-col items-center justify-center text-center py-16 gap-4">
-                    <div className="h-14 w-14 rounded-full bg-foreground text-background flex items-center justify-center">
+                    <div className="h-14 w-14 rounded-full bg-gradient-to-br from-nusu-navy to-nusu-blue text-white shadow-lg shadow-nusu-navy/25 flex items-center justify-center">
                       <HugeiconsIcon icon={CheckmarkCircle02Icon} size={28} strokeWidth={1.5} />
                     </div>
-                    <h2 className="text-2xl font-bold uppercase tracking-tight text-foreground">
+                    <h2 className="text-2xl font-bold uppercase tracking-tight text-nusu-navy dark:text-white">
                       Message Sent
                     </h2>
                     <p className="text-sm text-muted-foreground max-w-sm">
@@ -224,7 +232,7 @@ function ContactPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="mt-2"
+                      className="mt-2 hover:border-nusu-blue/50 hover:text-nusu-blue dark:border-white/20 dark:hover:border-nusu-sky dark:hover:text-nusu-sky"
                       onClick={() => setSubmitted(false)}
                     >
                       Send another message
@@ -233,10 +241,10 @@ function ContactPage() {
                 ) : (
                   <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                     <header className="flex flex-col gap-1 mb-2">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-nusu-blue">
                         Send us a message
                       </p>
-                      <h2 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight text-foreground">
+                      <h2 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight text-nusu-navy dark:text-white">
                         We'd love to hear from you
                       </h2>
                     </header>
@@ -320,7 +328,7 @@ function ContactPage() {
                         type="submit"
                         size="lg"
                         disabled={submitting}
-                        className="gap-2 hover:bg-nusu-blue shrink-0"
+                        className="gap-2 bg-primary hover:bg-nusu-blue dark:bg-nusu-blue dark:hover:bg-nusu-sky text-white shadow-md shadow-primary/20 dark:shadow-nusu-blue/30 shrink-0"
                       >
                         {submitting ? "Sending…" : "Send Message"}
                         <HugeiconsIcon icon={ArrowRight01Icon} size={14} strokeWidth={2} />
@@ -335,6 +343,11 @@ function ContactPage() {
           </div>
         </section>
       </main>
+      <SiteFooter
+        footer={footer}
+        contactInfo={contactInfo}
+        socialLinks={socialLinks}
+      />
     </>
   )
 }

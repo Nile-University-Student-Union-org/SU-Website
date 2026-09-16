@@ -49,10 +49,10 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
 
         <div className="mb-10 flex items-end justify-between">
           <div>
-            <p className="text-xs font-medium tracking-[0.46em] text-muted-foreground uppercase">
+            <p className="text-xs font-semibold tracking-[0.46em] text-nusu-blue uppercase">
               Powered by
             </p>
-            <h2 className="mt-2 text-2xl font-bold text-foreground">
+            <h2 className="mt-2 text-2xl font-bold text-nusu-navy dark:text-white">
               Our Sponsors
             </h2>
           </div>
@@ -63,7 +63,7 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
               size="icon"
               onClick={() => scroll("left")}
               disabled={!canScrollLeft}
-              className="rounded-full border-border text-foreground disabled:opacity-30"
+              className="rounded-full border-border text-foreground hover:border-nusu-blue/50 hover:text-nusu-blue hover:bg-nusu-navy/[0.04] dark:border-white/20 dark:text-white dark:hover:border-nusu-sky/60 dark:hover:text-nusu-sky dark:hover:bg-white/[0.06] transition-colors disabled:opacity-30"
             >
               <HugeiconsIcon icon={ArrowLeft01Icon} size={16} strokeWidth={2} />
             </Button>
@@ -72,7 +72,7 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
               size="icon"
               onClick={() => scroll("right")}
               disabled={!canScrollRight}
-              className="rounded-full border-border text-foreground disabled:opacity-30"
+              className="rounded-full border-border text-foreground hover:border-nusu-blue/50 hover:text-nusu-blue hover:bg-nusu-navy/[0.04] dark:border-white/20 dark:text-white dark:hover:border-nusu-sky/60 dark:hover:text-nusu-sky dark:hover:bg-white/[0.06] transition-colors disabled:opacity-30"
             >
               <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={2} />
             </Button>
@@ -86,12 +86,12 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
           {sponsors.map((sponsor) => (
             <div
               key={sponsor.id}
-              className="w-64 shrink-0 overflow-hidden rounded-2xl border border-border"
+              className="w-64 shrink-0 overflow-hidden rounded-2xl border border-border/80 shadow-[0_8px_30px_-10px_rgba(15,48,86,0.06)] group hover:border-nusu-blue/30 transition-all"
             >
-              <div className="flex h-36 flex-col justify-between bg-primary px-5 py-7 text-primary-foreground">
+              <div className="flex h-36 flex-col justify-between bg-gradient-to-br from-nusu-navy via-nusu-navy to-nusu-navy-dark px-5 py-7 text-white">
                 <div className="flex justify-end">
                   {sponsor.year && (
-                    <span className="text-lg font-bold">{sponsor.year}</span>
+                    <span className="text-lg font-bold text-nusu-gold">{sponsor.year}</span>
                   )}
                 </div>
                 <p className="text-2xl font-bold leading-tight tracking-wide uppercase">

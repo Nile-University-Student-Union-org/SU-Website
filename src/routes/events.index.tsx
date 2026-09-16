@@ -24,7 +24,14 @@ import {
   useCalendarYear,
   monthsForLocale,
 } from "@client/components/kibo-ui/calendar"
-import { getEventsFn, getEventStatusesFn } from "@server/server-fns/public"
+import {
+  getEventsFn,
+  getEventStatusesFn,
+  getFooterFn,
+  getContactInfoFn,
+  getSocialLinksFn,
+} from "@server/server-fns/public"
+import { SiteFooter } from "@client/components/SiteFooter"
 
 type EventStatus = {
   id: string
@@ -79,11 +86,20 @@ export const Route = createFileRoute("/events/")({
     ],
   }),
   loader: async () => {
-    const [events, statuses] = await Promise.all([
+    const [events, statuses, footer, contactInfo, socialLinks] = await Promise.all([
       getEventsFn(),
       getEventStatusesFn(),
+      getFooterFn(),
+      getContactInfoFn(),
+      getSocialLinksFn(),
     ])
-    return { events: events as DbEvent[], statuses: statuses as EventStatus[] }
+    return {
+      events: events as DbEvent[],
+      statuses: statuses as EventStatus[],
+      footer,
+      contactInfo,
+      socialLinks,
+    }
   },
   component: EventsPage,
 })
@@ -92,7 +108,7 @@ function CalendarTitle() {
   const [month] = useCalendarMonth()
   const [year] = useCalendarYear()
   return (
-    <span className="text-sm font-semibold text-foreground tabular-nums">
+    <span className="text-sm font-semibold text-nusu-navy dark:text-white tabular-nums">
       {monthsForLocale("en-US", "long")[month]} {year}
     </span>
   )
@@ -130,7 +146,7 @@ function EventCard({ event, onClick }: { event: CalendarEvent; onClick: () => vo
           </span>
         </div>
 
-        <h3 className="text-base font-bold uppercase tracking-tight text-foreground leading-tight group-hover:text-nusu-blue transition-colors">
+        <h3 className="text-base font-bold uppercase tracking-tight text-nusu-navy dark:text-white leading-tight group-hover:text-nusu-blue transition-colors">
           {event.name}
         </h3>
 
@@ -158,7 +174,7 @@ function EventCard({ event, onClick }: { event: CalendarEvent; onClick: () => vo
               </Badge>
             ))}
           </div>
-          <Button size="sm" className="gap-1.5 shrink-0 h-7 text-xs hover:bg-nusu-blue hover:text-white">
+          <Button size="sm" className="gap-1.5 shrink-0 h-7 text-xs bg-primary hover:bg-nusu-blue text-white shadow-xs">
             <HugeiconsIcon icon={Ticket01Icon} size={12} strokeWidth={2} />
             Register
           </Button>
@@ -169,7 +185,13 @@ function EventCard({ event, onClick }: { event: CalendarEvent; onClick: () => vo
 }
 
 function EventsPage() {
-  const { events: dbEvents, statuses } = Route.useLoaderData()
+  const {
+    events: dbEvents,
+    statuses,
+    footer,
+    contactInfo,
+    socialLinks,
+  } = Route.useLoaderData()
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
   const dateRefs = useRef<Record<string, HTMLElement | null>>({})
 
@@ -200,15 +222,15 @@ function EventsPage() {
     <>
       <Navbar />
 
-      <main className="min-h-screen pt-36 pb-16">
+      <main className="min-h-screen pt-36 pb-16 animate-page-enter">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
           <header className="flex flex-row items-end justify-between gap-6 border-b border-border pb-7 mb-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[0.95] text-foreground">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[0.95] text-nusu-navy dark:text-white">
               All Events
             </h1>
-            <p className="text-xs sm:text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground text-right max-w-56">
-              This is a good thing that will happen
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-nusu-blue text-right max-w-56">
+              Official Campus Calendar
             </p>
           </header>
 
@@ -231,7 +253,7 @@ function EventsPage() {
               <CalendarProvider
                 locale="en-US"
                 startDay={1}
-                className="flex flex-col border border-border rounded-2xl overflow-hidden"
+                className="flex flex-col border border-border/80 rounded-2xl overflow-hidden shadow-[0_10px_35px_-15px_rgba(15,48,86,0.08)] bg-background"
               >
                 <div className="flex items-center justify-between px-5 py-3 border-b border-border bg-background">
                   <CalendarTitle />
@@ -276,7 +298,7 @@ function EventsPage() {
                       className="mb-8 scroll-mt-28"
                     >
                       <div className="flex items-baseline gap-3 mb-1 pb-3 border-b border-border">
-                        <span className="text-4xl font-bold tabular-nums leading-none text-foreground">
+                        <span className="text-4xl font-bold tabular-nums leading-none text-nusu-navy dark:text-white">
                           {format(dateObj, "d")}
                         </span>
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
@@ -325,7 +347,7 @@ function EventsPage() {
                   </span>
                 </div>
 
-                <DialogTitle className="text-2xl font-bold uppercase tracking-tight leading-tight text-foreground">
+                <DialogTitle className="text-2xl font-bold uppercase tracking-tight leading-tight text-nusu-navy dark:text-white">
                   {selectedEvent.name}
                 </DialogTitle>
 
@@ -353,7 +375,7 @@ function EventsPage() {
                       </Badge>
                     ))}
                   </div>
-                  <Button className="gap-1.5 hover:bg-nusu-blue hover:text-white">
+                  <Button className="gap-1.5 bg-primary hover:bg-nusu-blue text-white shadow-md shadow-primary/20">
                     <HugeiconsIcon icon={Ticket01Icon} size={14} strokeWidth={2} />
                     Register
                   </Button>
@@ -363,6 +385,11 @@ function EventsPage() {
           )}
         </DialogContent>
       </Dialog>
+      <SiteFooter
+        footer={footer}
+        contactInfo={contactInfo}
+        socialLinks={socialLinks}
+      />
     </>
   )
 }

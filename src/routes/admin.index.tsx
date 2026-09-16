@@ -20,10 +20,10 @@ function AdminHome() {
   return (
     <div className="px-6 sm:px-10 py-10 max-w-6xl">
       <header className="mb-10">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-muted-foreground mb-2">
-          Admin
+        <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-nusu-blue mb-2">
+          Admin Console
         </p>
-        <h1 className="text-3xl sm:text-4xl font-bold uppercase tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-bold uppercase tracking-tight text-nusu-navy dark:text-white">
           Overview
         </h1>
         <p className="mt-3 text-sm text-muted-foreground max-w-xl">
@@ -31,15 +31,18 @@ function AdminHome() {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
         {QUICK_LINKS.map((q) => (
           <Link
             key={q.to}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             to={q.to as any}
-            className="block p-5 rounded-2xl border border-border bg-background hover:border-foreground/30 transition-colors"
+            className="group relative overflow-hidden block p-5 rounded-2xl border border-border/80 bg-card hover:border-nusu-blue/40 hover:shadow-[0_12px_30px_-10px_rgba(15,48,86,0.1)] transition-all duration-200"
           >
-            <p className="text-sm font-semibold mb-1">{q.label}</p>
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-nusu-navy via-nusu-blue to-nusu-blue-light opacity-0 group-hover:opacity-100 transition-opacity" />
+            <p className="text-sm font-semibold mb-1 text-foreground group-hover:text-nusu-blue transition-colors">
+              {q.label}
+            </p>
             <p className="text-xs text-muted-foreground leading-relaxed">
               {q.description}
             </p>

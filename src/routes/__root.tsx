@@ -2,6 +2,7 @@ import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { Toaster } from "@client/components/ui/sonner"
+import { RouteProgress } from "@client/components/RouteProgress"
 
 import appCss from "../styles.css?url"
 
@@ -34,6 +35,12 @@ export const Route = createRootRoute({
       { name: "twitter:image:alt", content: "Nile University Student Union" },
     ],
     links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap",
+      },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/logo.svg", type: "image/svg+xml" },
       { rel: "apple-touch-icon", href: "/logo.svg" },
@@ -51,12 +58,32 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var stored = localStorage.getItem('theme') || localStorage.getItem('admin-theme');
+                  var isDark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                  if (isDark) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body>
-        {children}
+        <RouteProgress>
+          {children}
+        </RouteProgress>
         <Toaster richColors position="top-right" />
         <TanStackDevtools
           config={{

@@ -126,11 +126,20 @@ const NAV: Array<NavGroup> = [
 ]
 
 function useTheme() {
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(() => {
+    if (typeof document !== "undefined") {
+      return (
+        document.documentElement.classList.contains("dark") ||
+        localStorage.getItem("admin-theme") === "dark" ||
+        localStorage.getItem("theme") === "dark"
+      )
+    }
+    return false
+  })
 
   useEffect(() => {
-    const stored = localStorage.getItem("admin-theme")
-    const isDark = stored === "dark"
+    const stored = localStorage.getItem("admin-theme") || localStorage.getItem("theme")
+    const isDark = stored === "dark" || (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)
     setDark(isDark)
     document.documentElement.classList.toggle("dark", isDark)
   }, [])
@@ -189,14 +198,14 @@ function AdminLayout() {
                 tooltip="NUSU admin"
                 render={<Link to="/admin" />}
               >
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-foreground text-background">
-                  <img src="/logo.svg" alt="" className="size-4" />
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-nusu-navy to-nusu-blue text-white shadow-xs">
+                  <img src="/logo.svg" alt="" className="size-4 brightness-0 invert" />
                 </div>
                 <div className="flex flex-col leading-none gap-0.5">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.25em]">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-nusu-navy dark:text-white">
                     NUSU
                   </span>
-                  <span className="text-[8px] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+                  <span className="text-[8px] font-semibold uppercase tracking-[0.3em] text-nusu-blue">
                     Admin Console
                   </span>
                 </div>
@@ -239,14 +248,14 @@ function AdminLayout() {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" tooltip={session.user.email}>
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-muted text-foreground text-xs font-semibold">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-nusu-navy/10 text-nusu-navy dark:bg-nusu-blue/20 dark:text-nusu-blue-light text-xs font-semibold">
                   {session.user.name.slice(0, 2).toUpperCase()}
                 </div>
                 <div className="flex flex-col leading-tight min-w-0 gap-0.5">
                   <span className="text-sm font-semibold truncate">
                     {session.user.name}
                   </span>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-nusu-blue dark:text-nusu-sky">
                     {session.user.role}
                   </span>
                 </div>
@@ -255,7 +264,7 @@ function AdminLayout() {
 
             <SidebarMenuItem>
               <SidebarMenuButton tooltip={dark ? "Switch to light mode" : "Switch to dark mode"} onClick={toggle}>
-                {dark ? <Sun size={14} /> : <Moon size={14} />}
+                {dark ? <Sun size={14} className="text-amber-400" /> : <Moon size={14} className="text-nusu-navy dark:text-white" />}
                 <span>{dark ? "Light mode" : "Dark mode"}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -278,11 +287,11 @@ function AdminLayout() {
       <SidebarInset>
         <header className="flex items-center gap-3 px-4 sm:px-6 h-14 border-b border-border bg-background">
           <SidebarTrigger />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-nusu-navy dark:text-nusu-blue">
             Admin
           </span>
         </header>
-        <div className="min-w-0">
+        <div className="min-w-0 animate-page-enter">
           <Outlet />
         </div>
       </SidebarInset>

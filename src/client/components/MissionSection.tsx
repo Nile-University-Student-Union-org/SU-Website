@@ -50,10 +50,10 @@ export function MissionSection({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
           <div className="lg:col-span-5">
-            <p className="text-xs font-medium tracking-[0.46em] text-muted-foreground uppercase mb-4">
+            <p className="text-xs font-semibold tracking-[0.46em] text-nusu-blue uppercase mb-4">
               {eyebrow}
             </p>
-            <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold uppercase tracking-tight leading-[0.9] text-foreground mb-6">
+            <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold uppercase tracking-tight leading-[0.9] text-nusu-navy dark:text-white mb-6">
               {countWord}
               {titleLines.map((line, i) => (
                 <span key={i}>
@@ -68,7 +68,7 @@ export function MissionSection({
             <Link
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               to={ctaLink as any}
-              className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-foreground hover:text-nusu-blue transition-colors"
+              className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-nusu-navy dark:text-white hover:text-nusu-blue transition-colors"
             >
               {ctaLabel}
               <HugeiconsIcon
@@ -85,7 +85,7 @@ export function MissionSection({
               {committees.map((committee) => (
                 <div
                   key={committee.id}
-                  className="group flex items-start gap-4 p-5 rounded-2xl border border-border hover:border-foreground/20 bg-background hover:bg-muted/40 transition-all duration-200"
+                  className="group flex items-start gap-4 p-5 rounded-2xl border border-border/80 hover:border-nusu-blue/40 bg-background hover:bg-nusu-navy/[0.02] hover:shadow-xs transition-all duration-200"
                 >
                   <div
                     className="h-9 w-9 rounded-xl shrink-0 flex items-center justify-center mt-0.5"
@@ -97,7 +97,7 @@ export function MissionSection({
                     />
                   </div>
                   <div className="min-w-0">
-                    <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] text-foreground mb-1.5">
+                    <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] text-nusu-navy dark:text-white mb-1.5 group-hover:text-nusu-blue transition-colors">
                       {committee.name}
                     </h4>
                     <p className="text-[11px] text-muted-foreground leading-relaxed">
@@ -119,7 +119,7 @@ export function MissionSection({
                   i === 0 ? "pr-4" : "pl-8 border-l border-border"
                 }`}
               >
-                <span className="text-4xl sm:text-5xl font-bold tabular-nums leading-none text-foreground">
+                <span className="text-4xl sm:text-5xl font-bold tabular-nums leading-none text-nusu-navy dark:text-white">
                   {stat.value}
                 </span>
                 <span className="text-[10px] font-medium uppercase tracking-[0.35em] text-muted-foreground">

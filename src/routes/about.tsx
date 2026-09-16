@@ -1,495 +1,156 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
-import { useMemo, useState } from "react"
-import { HugeiconsIcon } from "@hugeicons/react"
-import {
-  Mail01Icon,
-  Linkedin01Icon,
-  ArrowRight01Icon,
-} from "@hugeicons/core-free-icons"
+import { createFileRoute } from "@tanstack/react-router"
 import { Navbar } from "@client/components/Navbar"
-import { Button } from "@client/components/ui/button"
-import { Separator } from "@client/components/ui/separator"
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from "@client/components/ui/dialog"
+import { SiteFooter } from "@client/components/SiteFooter"
 import {
   getAboutHeroFn,
-  getAboutCTAFn,
-  getCommitteesFn,
+  getFooterFn,
+  getContactInfoFn,
+  getSocialLinksFn,
 } from "@server/server-fns/public"
-
-type Member = {
-  id: string
-  name: string
-  role: string
-  committeeId: string
-  major: string
-  year: string
-  image: string
-  bio: string
-  cvDescription: string
-  inSu: string[]
-  collaborations: string[]
-  achievements: string[]
-  email: string | null
-  linkedin: string | null
-  order: number
-}
-
-type Committee = {
-  id: string
-  slug: string
-  name: string
-  tagline: string
-  description: string
-  color: string
-  members: Member[]
-}
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — NUSU" },
+      { title: "About — Nile University Student Union" },
       {
         name: "description",
         content:
-          "Learn about the Nile University Student Union — our mission, committees, and the board members who represent you.",
+          "Learn about Nile University Student Union — what we do and the team representing you.",
       },
-      { property: "og:title", content: "About — NUSU" },
+      { property: "og:title", content: "About — Nile University Student Union" },
       {
         property: "og:description",
         content:
-          "Learn about the Nile University Student Union — our mission, committees, and the board members who represent you.",
+          "Learn about Nile University Student Union — what we do and the team representing you.",
       },
     ],
   }),
   loader: async () => {
-    const [aboutHero, aboutCTA, committees] = await Promise.all([
+    const [aboutHero, footer, contactInfo, socialLinks] = await Promise.all([
       getAboutHeroFn(),
-      getAboutCTAFn(),
-      getCommitteesFn(),
+      getFooterFn(),
+      getContactInfoFn(),
+      getSocialLinksFn(),
     ])
-    return { aboutHero, aboutCTA, committees: committees as Committee[] }
+    return {
+      aboutHero,
+      footer,
+      contactInfo,
+      socialLinks,
+    }
   },
   component: AboutPage,
 })
 
-function MemberCard({
-  member,
-  committee,
-  onClick,
-  size = "default",
-}: {
-  member: Member
-  committee: Committee
-  onClick: () => void
-  size?: "default" | "featured"
-}) {
-  return (
-    <button onClick={onClick} className="group relative w-full text-left">
-      <div
-        className={`relative overflow-hidden rounded-2xl bg-muted ${
-          size === "featured"
-            ? "aspect-square sm:aspect-[4/5]"
-            : "aspect-square sm:aspect-[3/4]"
-        }`}
-      >
-        <img
-          src={member.image || "/person.jpg"}
-          alt={member.name}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/85 via-black/40 to-transparent" />
-
-        <div
-          className="absolute inset-x-0 top-0 h-1 transition-all duration-300 group-hover:h-2"
-          style={{ backgroundColor: committee.color }}
-        />
-
-        <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-          <div className="mb-2 flex items-center gap-1.5">
-            <span
-              className="h-1.5 w-1.5 shrink-0 rounded-full"
-              style={{ backgroundColor: committee.color }}
-            />
-            <span className="text-[9px] font-semibold tracking-[0.25em] text-white/70 uppercase sm:text-[10px]">
-              {member.role}
-            </span>
-          </div>
-          <h3
-            className={`leading-tight font-bold tracking-tight text-white uppercase ${
-              size === "featured" ? "text-2xl" : "text-lg"
-            }`}
-          >
-            {member.name}
-          </h3>
-          <div className="mt-1 flex items-center gap-1.5 text-[10px] tracking-[0.15em] text-white/60 uppercase sm:text-[11px]">
-            <span>{member.major}</span>
-            <span>·</span>
-            <span>{member.year}</span>
-          </div>
-        </div>
-
-        <div className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/0 opacity-0 backdrop-blur-md transition-all duration-300 group-hover:bg-white/95 group-hover:opacity-100">
-          <HugeiconsIcon
-            icon={ArrowRight01Icon}
-            size={14}
-            strokeWidth={2}
-            className="-rotate-45 text-foreground transition-transform group-hover:rotate-0"
-          />
-        </div>
-      </div>
-    </button>
-  )
-}
+const TEAM_MEMBERS = [
+  { id: "1", name: "Member Name", role: "President" },
+  { id: "2", name: "Member Name", role: "Vice President" },
+  { id: "3", name: "Member Name", role: "Secretary" },
+  { id: "4", name: "Member Name", role: "Treasurer" },
+  { id: "5", name: "Member Name", role: "Academic Affairs" },
+  { id: "6", name: "Member Name", role: "Student Services" },
+  { id: "7", name: "Member Name", role: "Campus Events" },
+  { id: "8", name: "Member Name", role: "Student Clubs" },
+  { id: "9", name: "Member Name", role: "Logistics" },
+  { id: "10", name: "Member Name", role: "Media & PR" },
+  { id: "11", name: "Member Name", role: "Photography & Video" },
+  { id: "12", name: "Member Name", role: "Graphic Design" },
+  { id: "13", name: "Member Name", role: "Sports" },
+  { id: "14", name: "Member Name", role: "Community Outreach" },
+  { id: "15", name: "Member Name", role: "Tech & Systems" },
+  { id: "16", name: "Member Name", role: "Freshman Representative" },
+]
 
 function AboutPage() {
-  const { aboutHero, aboutCTA, committees } = Route.useLoaderData()
-  const [selectedMember, setSelectedMember] = useState<Member | null>(null)
-
-  const committeeMap = useMemo(
-    () => Object.fromEntries(committees.map((c) => [c.id, c])),
-    [committees]
-  )
-
-  const executiveCommittee = useMemo(
-    () => committees.find((c) => c.slug === "executive"),
-    [committees]
-  )
-
-  const otherCommittees = useMemo(
-    () => committees.filter((c) => c.slug !== "executive"),
-    [committees]
-  )
-
-  const selectedCommittee =
-    selectedMember && committeeMap[selectedMember.committeeId]
-
-  const heroEyebrow = aboutHero?.eyebrow ?? "Nile University Student Union"
-  const heroTitle = aboutHero?.title ?? "About\nThe Union"
-  const heroDescription =
-    aboutHero?.description ??
-    "Six committees, sixty members, one student body to answer to. NUSU is a small organisation that runs like a serious one — because that's what our community deserves."
+  const { aboutHero, footer, contactInfo, socialLinks } = Route.useLoaderData()
 
   return (
-    <>
+    <div className="min-h-screen bg-white dark:bg-[#030712] text-neutral-900 dark:text-neutral-100 flex flex-col font-sans transition-colors duration-300 relative overflow-x-hidden selection:bg-nusu-blue/20 selection:text-nusu-navy dark:selection:text-nusu-blue-light">
+      {/* Subtle ambient lighting orb */}
+      <div
+        className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[680px] h-[360px] rounded-full bg-gradient-to-b from-nusu-blue/10 via-nusu-blue-light/5 to-transparent blur-3xl opacity-50 dark:opacity-20 animate-ambient-glow"
+        aria-hidden="true"
+      />
+
       <Navbar />
 
-      <main className="min-h-screen pt-36 pb-24">
-        <section className="mx-auto mb-20 max-w-7xl px-4 sm:px-6 lg:px-10">
-          <div className="grid grid-cols-1 items-end gap-8 border-b border-border pb-10 lg:grid-cols-12">
-            <div className="lg:col-span-8">
-              <p className="mb-6 text-[11px] font-semibold tracking-[0.4em] text-muted-foreground uppercase">
-                {heroEyebrow}
-              </p>
-              <h1 className="text-5xl leading-[0.9] font-bold tracking-tight text-foreground uppercase sm:text-7xl lg:text-[8rem]">
-                {heroTitle.split("\n").map((line, i) => (
-                  <span key={i}>
-                    {line}
-                    {i < heroTitle.split("\n").length - 1 && <br />}
-                  </span>
-                ))}
-              </h1>
-            </div>
-            <div className="lg:col-span-4 lg:border-l lg:border-border lg:pl-10">
-              <p className="text-sm leading-relaxed text-foreground/80 sm:text-base">
-                {heroDescription}
-              </p>
-            </div>
-          </div>
+      <main className="animate-page-enter flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-32 sm:pt-40 pb-28 relative z-10">
+        {/* Section: About the Student Union */}
+        <section className="max-w-3xl">
+          <h1 className="text-4xl sm:text-6xl font-semibold tracking-[-0.03em] text-neutral-950 dark:text-white leading-[1.1]">
+            About the{" "}
+            <span className="font-serif italic font-normal text-nusu-blue dark:text-nusu-blue-light pr-1 inline-block">
+              Student Union
+            </span>
+          </h1>
+          <p className="mt-6 text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed font-normal">
+            {aboutHero?.description ||
+              "We are the elected student union at Nile University. Run entirely by students, we organize campus events, support student clubs, and represent student concerns to university administration."}
+          </p>
         </section>
 
-        {executiveCommittee && executiveCommittee.members.length > 0 && (
-          <section className="mx-auto mb-28 max-w-7xl px-4 sm:px-6 lg:px-10">
-            <header className="mb-10 flex flex-col gap-4 border-b border-border pb-6 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="mb-2 text-[11px] font-semibold tracking-[0.3em] text-muted-foreground uppercase">
-                  01 — Leadership
-                </p>
-                <h2 className="text-4xl font-bold tracking-tight text-foreground uppercase sm:text-5xl">
-                  {executiveCommittee.name}
-                </h2>
-              </div>
-              <p className="max-w-md text-sm text-muted-foreground">
-                {executiveCommittee.description}
-              </p>
-            </header>
+        {/* Section: Meet the Team */}
+        <section className="mt-20 sm:mt-24">
+          <div className="mb-10 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.025em] text-neutral-950 dark:text-white">
+              Meet the{" "}
+              <span className="font-serif italic font-normal text-nusu-blue dark:text-nusu-blue-light pr-1 inline-block">
+                Team
+              </span>
+            </h2>
+            <p className="mt-2 text-sm sm:text-base text-neutral-500 dark:text-neutral-400">
+              The students serving in the union this year.
+            </p>
+          </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-              {executiveCommittee.members.map((member) => (
-                <MemberCard
-                  key={member.id}
-                  member={member}
-                  committee={executiveCommittee}
-                  onClick={() => setSelectedMember(member)}
-                />
-              ))}
-            </div>
-          </section>
-        )}
+          {/* 16 Generic Placeholder Cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {TEAM_MEMBERS.map((member, index) => (
+              <div
+                key={member.id}
+                style={{ animationDelay: `${index * 35}ms` }}
+                className="animate-card-reveal group select-none p-1 rounded-3xl bg-neutral-100/70 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.06] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-nusu-blue/40 dark:hover:border-nusu-blue-light/30 hover:shadow-xl hover:shadow-black/[0.03] dark:hover:shadow-black/40 cursor-default"
+              >
+                <div className="relative rounded-[calc(1.5rem-2px)] py-9 sm:py-11 px-5 sm:px-6 min-h-[300px] sm:min-h-[340px] bg-white dark:bg-[#061322]/90 flex flex-col items-center justify-center text-center h-full overflow-hidden transition-colors duration-300">
+                  {/* Soft Radial Ambient Sheen on Hover */}
+                  <div
+                    className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(ellipse_at_top,rgba(1,139,206,0.08),transparent_70%)]"
+                    aria-hidden="true"
+                  />
 
-        <div className="mx-auto max-w-7xl space-y-24 px-4 sm:px-6 lg:px-10">
-          {otherCommittees.map((committee, idx) => {
-            const indexLabel = String(idx + 2).padStart(2, "0")
-
-            return (
-              <section key={committee.id}>
-                <header className="mb-10 grid grid-cols-1 gap-6 border-b border-border pb-6 lg:grid-cols-12 lg:gap-10">
-                  <div className="lg:col-span-7">
-                    <div className="mb-3 flex items-center gap-3">
-                      <span
-                        className="h-2.5 w-2.5 shrink-0 rounded-full"
-                        style={{ backgroundColor: committee.color }}
-                      />
-                      <p className="text-[11px] font-semibold tracking-[0.3em] text-muted-foreground uppercase">
-                        {indexLabel} — {committee.tagline}
-                      </p>
+                  {/* Avatar */}
+                  <div className="mb-6">
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-[2px] bg-gradient-to-b from-neutral-200 to-transparent dark:from-white/15 dark:to-transparent transition-all duration-500 group-hover:from-nusu-blue/80 dark:group-hover:from-nusu-blue-light/80">
+                      <div className="w-full h-full rounded-full bg-neutral-100 dark:bg-neutral-800/90 flex items-center justify-center overflow-hidden border border-white/60 dark:border-white/5">
+                        <svg
+                          className="w-12 h-12 sm:w-14 sm:h-14 text-neutral-400 dark:text-neutral-500 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+                        </svg>
+                      </div>
                     </div>
-                    <h2 className="text-4xl font-bold tracking-tight text-foreground uppercase sm:text-5xl">
-                      {committee.name}
-                    </h2>
                   </div>
-                  <p className="text-sm leading-relaxed text-muted-foreground lg:col-span-5 lg:pt-2">
-                    {committee.description}
-                  </p>
-                </header>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-                  {committee.members.map((member) => (
-                    <MemberCard
-                      key={member.id}
-                      member={member}
-                      committee={committee}
-                      onClick={() => setSelectedMember(member)}
-                    />
-                  ))}
-                </div>
-              </section>
-            )
-          })}
-        </div>
-
-        {aboutCTA?.enabled !== false && (
-          <section className="mx-auto mt-32 max-w-7xl px-4 sm:px-6 lg:px-10">
-            <div className="relative overflow-hidden rounded-3xl bg-foreground p-10 text-background sm:p-16">
-              <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12">
-                <div className="lg:col-span-8">
-                  <p className="mb-4 text-[11px] font-semibold tracking-[0.3em] uppercase opacity-60">
-                    {aboutCTA?.eyebrow ?? "Recruitment opens every spring"}
-                  </p>
-                  <h2 className="text-4xl leading-[0.95] font-bold tracking-tight uppercase sm:text-5xl lg:text-6xl">
-                    {(aboutCTA?.title ?? "Want a seat\nat this table?")
-                      .split("\n")
-                      .map((line, i, arr) => (
-                        <span key={i}>
-                          {line}
-                          {i < arr.length - 1 && <br />}
-                        </span>
-                      ))}
-                  </h2>
-                </div>
-                <div className="flex flex-col gap-4 lg:col-span-4 lg:items-end">
-                  <p className="max-w-sm text-sm leading-relaxed opacity-70 lg:text-right">
-                    {aboutCTA?.description ??
-                      "Applications go out each March. Every committee runs its own intake — open positions are posted to our channels first."}
-                  </p>
-                  <Link
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    to={(aboutCTA?.buttonLink ?? "/contact") as any}
-                  >
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="gap-2 border-background/30 bg-transparent text-background hover:bg-background hover:text-foreground"
-                    >
-                      {aboutCTA?.buttonText ?? "Get In Touch"}
-                      <HugeiconsIcon
-                        icon={ArrowRight01Icon}
-                        size={14}
-                        strokeWidth={2}
-                      />
-                    </Button>
-                  </Link>
+                  {/* Name & Role */}
+                  <div className="w-full">
+                    <h3 className="text-base sm:text-lg font-semibold tracking-tight text-neutral-900 dark:text-white transition-colors duration-300 group-hover:text-nusu-blue dark:group-hover:text-nusu-blue-light">
+                      {member.name}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1.5 font-normal">
+                      {member.role}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-        )}
+            ))}
+          </div>
+        </section>
       </main>
 
-      <Dialog
-        open={!!selectedMember}
-        onOpenChange={(open) => {
-          if (!open) setSelectedMember(null)
-        }}
-      >
-        <DialogContent className="max-h-[90svh] gap-0 overflow-y-auto p-0 sm:max-w-5xl md:overflow-hidden">
-          {selectedMember && selectedCommittee && (
-            <div className="flex flex-col md:h-[85vh] md:max-h-180 md:flex-row md:overflow-hidden">
-              <div className="relative h-90 shrink-0 bg-muted md:h-auto md:w-72 lg:w-80">
-                <img
-                  src={selectedMember.image || "/person.jpg"}
-                  alt={selectedMember.name}
-                  className="absolute inset-0 h-full w-full object-cover object-center"
-                />
-                <div
-                  className="absolute inset-x-0 top-0 h-1.5"
-                  style={{ backgroundColor: selectedCommittee.color }}
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/85 via-black/50 to-transparent p-5">
-                  <p className="mb-1 text-[9px] font-semibold tracking-[0.3em] text-white/60 uppercase">
-                    {selectedCommittee.name}
-                  </p>
-                  <p className="text-xs font-medium tracking-[0.12em] text-white/90 uppercase">
-                    {selectedMember.major} · {selectedMember.year}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-6 p-6 sm:p-8 md:overflow-y-auto lg:p-10">
-                <div>
-                  <div className="mb-3 flex items-center gap-2">
-                    <span
-                      className="h-1.5 w-1.5 shrink-0 rounded-full"
-                      style={{ backgroundColor: selectedCommittee.color }}
-                    />
-                    <span className="text-[10px] font-semibold tracking-[0.28em] text-muted-foreground uppercase">
-                      {selectedMember.role}
-                    </span>
-                  </div>
-                  <DialogTitle className="text-3xl leading-[0.9] font-bold tracking-tight text-foreground uppercase sm:text-4xl lg:text-5xl">
-                    {selectedMember.name}
-                  </DialogTitle>
-                </div>
-
-                <DialogDescription className="text-sm leading-relaxed text-foreground/80">
-                  {selectedMember.bio}
-                </DialogDescription>
-
-                {selectedMember.cvDescription && (
-                  <>
-                    <Separator />
-                    <div
-                      className="prose prose-sm max-w-none text-sm leading-relaxed text-foreground/80"
-                      dangerouslySetInnerHTML={{
-                        __html: selectedMember.cvDescription,
-                      }}
-                    />
-                  </>
-                )}
-
-                {selectedMember.inSu.length > 0 && (
-                  <>
-                    <Separator />
-                    <CVSection
-                      label="Inside the Union"
-                      count={selectedMember.inSu.length}
-                      items={selectedMember.inSu}
-                      accent={selectedCommittee.color}
-                    />
-                  </>
-                )}
-
-                {selectedMember.collaborations.length > 0 && (
-                  <CVSection
-                    label="Collaborations"
-                    count={selectedMember.collaborations.length}
-                    items={selectedMember.collaborations}
-                    accent={selectedCommittee.color}
-                  />
-                )}
-
-                {selectedMember.achievements.length > 0 && (
-                  <CVSection
-                    label="Deals & Achievements"
-                    count={selectedMember.achievements.length}
-                    items={selectedMember.achievements}
-                    accent={selectedCommittee.color}
-                  />
-                )}
-
-                {(selectedMember.email || selectedMember.linkedin) && (
-                  <>
-                    <Separator />
-                    <div className="flex flex-wrap gap-2 pb-2">
-                      {selectedMember.email && (
-                        <a
-                          href={`mailto:${selectedMember.email}`}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs transition-colors hover:bg-muted"
-                        >
-                          <HugeiconsIcon
-                            icon={Mail01Icon}
-                            size={12}
-                            strokeWidth={2}
-                          />
-                          {selectedMember.email}
-                        </a>
-                      )}
-                      {selectedMember.linkedin && (
-                        <a
-                          href={selectedMember.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs transition-colors hover:bg-muted"
-                        >
-                          <HugeiconsIcon
-                            icon={Linkedin01Icon}
-                            size={12}
-                            strokeWidth={2}
-                          />
-                          LinkedIn
-                        </a>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-    </>
-  )
-}
-
-function CVSection({
-  label,
-  count,
-  items,
-  accent,
-}: {
-  label: string
-  count: number
-  items: string[]
-  accent: string
-}) {
-  return (
-    <div>
-      <div className="mb-3 flex items-center justify-between">
-        <h4 className="text-[10px] font-semibold tracking-[0.3em] text-foreground uppercase">
-          {label}
-        </h4>
-        <span className="text-[10px] text-muted-foreground tabular-nums">
-          {String(count).padStart(2, "0")}
-        </span>
-      </div>
-      <ul className="flex flex-col gap-2.5">
-        {items.map((item, i) => (
-          <li
-            key={i}
-            className="flex gap-3 text-sm leading-relaxed text-foreground/80"
-          >
-            <span
-              className="mt-2 h-1 w-3 shrink-0 rounded-full"
-              style={{ backgroundColor: accent }}
-            />
-            <span className="flex-1">{item}</span>
-          </li>
-        ))}
-      </ul>
+      <SiteFooter footer={footer} contactInfo={contactInfo} socialLinks={socialLinks} />
     </div>
   )
 }

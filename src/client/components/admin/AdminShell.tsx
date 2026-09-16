@@ -18,11 +18,13 @@ export function AdminShell({
       <header className="mb-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-border pb-6">
         <div>
           {eyebrow && (
-            <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-muted-foreground mb-2">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-nusu-blue mb-2">
               {eyebrow}
             </p>
           )}
-          <h1 className="text-3xl sm:text-4xl font-bold uppercase tracking-tight">{title}</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold uppercase tracking-tight text-nusu-navy dark:text-white">
+            {title}
+          </h1>
           {description && (
             <p className="mt-3 text-sm text-muted-foreground max-w-xl">{description}</p>
           )}
@@ -51,7 +53,7 @@ export function AdminFieldRow({
       <div className="lg:col-span-1">
         <label
           htmlFor={htmlFor}
-          className="text-[11px] font-semibold uppercase tracking-[0.25em] text-foreground"
+          className="text-[11px] font-semibold uppercase tracking-[0.25em] text-nusu-navy dark:text-nusu-blue"
         >
           {label}
         </label>
